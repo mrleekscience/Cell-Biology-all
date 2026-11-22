@@ -1,0 +1,2546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AQA GCSE Cell Biology Revision Quiz — Mr Leek Science</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+    }
+    .option-card {
+      transition: all 0.16s ease;
+    }
+    .option-card:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+    .fade-in {
+      animation: fadeIn 0.22s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-100 text-slate-900">
+
+  <!-- TOP NAVIGATION BAR -->
+  <header class="bg-slate-900 text-white shadow-md sticky top-0 z-30 border-b border-slate-800">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3.5">
+        <img
+          src="mr leek science.jpg"
+          onerror="this.onerror=null; this.src='mrleeksciencelogo.png';"
+          alt="Mr Leek Science"
+          class="h-12 sm:h-14 w-auto object-contain rounded-xl bg-white p-0.5 shadow-sm"
+        />
+        <div>
+          <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-white leading-snug">
+            GCSE Cell Biology Revision Quiz
+          </h1>
+          <p class="text-xs sm:text-sm text-teal-300 font-medium">
+            AQA GCSE Biology (8461 / 8464) &bull; Cell Biology
+          </p>
+        </div>
+      </div>
+
+      <div id="headerControls" class="hidden flex items-center gap-2 sm:gap-3">
+        <span id="headerStudentBadge" class="hidden sm:inline-flex items-center gap-1.5 bg-slate-800 text-slate-200 text-xs font-semibold px-3 py-1.5 rounded-full border border-slate-700">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span id="headerStudentName">Student</span>
+        </span>
+        <button
+          type="button"
+          onclick="confirmReturnHome()"
+          class="text-xs sm:text-sm font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-xl border border-slate-700 transition"
+        >
+          Menu
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+
+    <!-- ==================== VIEW 1: START SCREEN ==================== -->
+    <section id="startScreen" class="fade-in">
+      <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+        <!-- Top Banner -->
+        <div class="bg-gradient-to-r from-slate-900 via-teal-900 to-emerald-900 px-6 py-6 sm:px-8 text-white">
+          <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-teal-200 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2.5">
+            Topic 1 &bull; Paper 1 Revision
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            Configure Your Cell Biology Quiz
+          </h2>
+          <p class="text-slate-200 text-sm sm:text-base mt-1.5 max-w-2xl">
+            Enter your name, choose your tier, select either full topic coverage or Required Practicals only, and pick your question count.
+          </p>
+        </div>
+
+        <form id="quizSetupForm" onsubmit="handleStartQuiz(event)" novalidate class="p-6 sm:p-8 space-y-7">
+
+          <!-- 1. STUDENT DETAILS ROW (Zero helper/caption text underneath inputs) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+            <div>
+              <label for="studentNameInput" class="block text-sm font-bold text-slate-800 mb-1.5">
+                Student Name <span class="text-rose-600 font-extrabold">*</span>
+              </label>
+              <input
+                type="text"
+                id="studentNameInput"
+                placeholder="Enter your full name"
+                maxlength="50"
+                autocomplete="name"
+                oninput="clearValidationError()"
+                class="w-full rounded-xl border-2 border-slate-300 bg-slate-50 focus:bg-white focus:border-teal-600 focus:ring-2 focus:ring-teal-500/20 px-4 py-3 text-slate-900 font-medium outline-none transition"
+              />
+            </div>
+
+            <div>
+              <label for="studentEmailInput" class="block text-sm font-bold text-slate-800 mb-1.5">
+                Email Address <span class="text-slate-400 font-medium">(Optional)</span>
+              </label>
+              <input
+                type="email"
+                id="studentEmailInput"
+                placeholder="e.g. student@school.co.uk"
+                maxlength="80"
+                autocomplete="email"
+                class="w-full rounded-xl border-2 border-slate-300 bg-slate-50 focus:bg-white focus:border-teal-600 focus:ring-2 focus:ring-teal-500/20 px-4 py-3 text-slate-900 font-medium outline-none transition"
+              />
+            </div>
+          </div>
+
+          <!-- 2. SELECT TIER / PATHWAY -->
+          <div>
+            <div class="flex items-center justify-between mb-2.5">
+              <span class="text-sm font-bold text-slate-800">Select Tier / Pathway</span>
+              <span id="tierCountHint" class="text-xs font-semibold text-teal-700 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">
+                Combined Science Higher Selected
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5" id="tierSelectorGroup">
+              <!-- Foundation -->
+              <button
+                type="button"
+                data-tier="foundation"
+                onclick="selectTier('foundation')"
+                class="tier-btn text-left p-4 rounded-2xl border-2 border-slate-200 bg-slate-50 hover:border-teal-400 transition relative flex flex-col justify-between"
+              >
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <span class="inline-block text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-sky-100 text-sky-800 mb-1.5">
+                      Combined 8464
+                    </span>
+                    <h3 class="text-base font-extrabold text-slate-900">Foundation Tier</h3>
+                  </div>
+                  <span class="tier-check w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                    ✓
+                  </span>
+                </div>
+                <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Core cell structures, microscopy, diffusion, osmosis, mitosis &amp; stem cells (Grades 1–5).
+                </p>
+              </button>
+
+              <!-- Higher (Default Active) -->
+              <button
+                type="button"
+                data-tier="higher"
+                onclick="selectTier('higher')"
+                class="tier-btn text-left p-4 rounded-2xl border-2 border-teal-600 bg-teal-50/60 shadow-sm transition relative flex flex-col justify-between"
+              >
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <span class="inline-block text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-teal-100 text-teal-800 mb-1.5">
+                      Combined 8464
+                    </span>
+                    <h3 class="text-base font-extrabold text-slate-900">Higher Tier</h3>
+                  </div>
+                  <span class="tier-check w-6 h-6 rounded-full border-2 border-teal-600 bg-teal-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                    ✓
+                  </span>
+                </div>
+                <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Includes standard form magnification, resolution, mitotic index, SA:V &amp; osmosis maths (Grades 4–9).
+                </p>
+              </button>
+
+              <!-- Separate Biology -->
+              <button
+                type="button"
+                data-tier="separate"
+                onclick="selectTier('separate')"
+                class="tier-btn text-left p-4 rounded-2xl border-2 border-slate-200 bg-slate-50 hover:border-teal-400 transition relative flex flex-col justify-between"
+              >
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <span class="inline-block text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-purple-100 text-purple-800 mb-1.5">
+                      Triple 8461
+                    </span>
+                    <h3 class="text-base font-extrabold text-slate-900">Separate Biology</h3>
+                  </div>
+                  <span class="tier-check w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                    ✓
+                  </span>
+                </div>
+                <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Full Higher content plus Culturing Microorganisms (RP2), Binary Fission &amp; Monoclonal Antibodies.
+                </p>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. QUIZ MODE / FOCUS (Dedicated Box for Required Practicals Only) -->
+          <div>
+            <span class="block text-sm font-bold text-slate-800 mb-2.5">Quiz Focus</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <!-- All Cell Biology Topics -->
+              <button
+                type="button"
+                id="modeAllBtn"
+                onclick="selectMode('all')"
+                class="text-left p-4 rounded-2xl border-2 border-teal-600 bg-teal-50/60 shadow-sm transition flex items-start gap-3.5"
+              >
+                <div id="modeAllIcon" class="w-10 h-10 rounded-xl bg-teal-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between">
+                    <h4 class="font-extrabold text-slate-900 text-sm sm:text-base">All Cell Biology Topics</h4>
+                    <span id="modeAllCheck" class="text-teal-600 font-extrabold text-sm">✓</span>
+                  </div>
+                  <p class="text-xs text-slate-600 mt-1">
+                    Covers cell structure, transport, cell division, required practicals &amp; tier-specific content.
+                  </p>
+                </div>
+              </button>
+
+              <!-- Dedicated Separate Box: Required Practicals Only -->
+              <button
+                type="button"
+                id="modeRpBtn"
+                onclick="selectMode('rp')"
+                class="text-left p-4 rounded-2xl border-2 border-slate-200 bg-amber-50/40 hover:border-amber-400 transition flex items-start gap-3.5"
+              >
+                <div id="modeRpIcon" class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0 mt-0.5">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3v4.5m4.5-4.5v4.5M6 7.5h12M7.5 7.5l-1.5 11.25A2.25 2.25 0 008.25 21h7.5a2.25 2.25 0 002.25-2.25L16.5 7.5" />
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between gap-2">
+                    <h4 class="font-extrabold text-slate-900 text-sm sm:text-base">Required Practicals Only</h4>
+                    <span id="modeRpCheck" class="hidden text-amber-600 font-extrabold text-sm">✓</span>
+                  </div>
+                  <p id="modeRpDesc" class="text-xs text-slate-600 mt-1">
+                    Focused practical drill: RP1 Microscopy &amp; Magnification and RP3 Osmosis in Plant Tissue.
+                  </p>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 4. NUMBER OF QUESTIONS -->
+          <div>
+            <div class="flex items-center justify-between mb-2.5">
+              <span class="text-sm font-bold text-slate-800">Number of Questions</span>
+              <span id="poolAvailabilityText" class="text-xs font-medium text-slate-500">
+                106 unique questions in bank
+              </span>
+            </div>
+            <div class="grid grid-cols-5 gap-2 sm:gap-3" id="countSelectorGroup">
+              <button type="button" data-count="10" onclick="selectCount(10)" class="count-btn py-3 px-2 rounded-xl border-2 border-slate-200 bg-slate-50 hover:border-teal-400 text-slate-800 font-extrabold text-sm sm:text-base transition">
+                10
+              </button>
+              <button type="button" data-count="20" onclick="selectCount(20)" class="count-btn py-3 px-2 rounded-xl border-2 border-teal-600 bg-teal-600 text-white font-extrabold text-sm sm:text-base shadow-sm transition">
+                20
+              </button>
+              <button type="button" data-count="30" onclick="selectCount(30)" class="count-btn py-3 px-2 rounded-xl border-2 border-slate-200 bg-slate-50 hover:border-teal-400 text-slate-800 font-extrabold text-sm sm:text-base transition">
+                30
+              </button>
+              <button type="button" data-count="50" onclick="selectCount(50)" class="count-btn py-3 px-2 rounded-xl border-2 border-slate-200 bg-slate-50 hover:border-teal-400 text-slate-800 font-extrabold text-sm sm:text-base transition">
+                50
+              </button>
+              <button type="button" data-count="80" onclick="selectCount(80)" class="count-btn py-3 px-2 rounded-xl border-2 border-slate-200 bg-slate-50 hover:border-teal-400 text-slate-800 font-extrabold text-sm sm:text-base transition">
+                80
+              </button>
+            </div>
+          </div>
+
+          <!-- 5. BOTTOM ACTION FOOTER -->
+          <div class="pt-4 border-t border-slate-200 space-y-3">
+            <div id="validationAlert" class="hidden rounded-xl bg-rose-50 border border-rose-300 text-rose-800 px-4 py-3 text-sm font-semibold flex items-center gap-2">
+              <svg class="w-5 h-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+              </svg>
+              <span>Please enter your Student Name before starting the quiz.</span>
+            </div>
+
+            <button
+              type="submit"
+              id="startQuizBtn"
+              class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-extrabold text-base sm:text-lg shadow-lg shadow-teal-600/20 transition transform active:scale-[0.99] flex items-center justify-center gap-2"
+            >
+              <span id="startBtnLabel">Start Higher Tier Quiz</span>
+              <span aria-hidden="true">&rarr;</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: ACTIVE QUIZ ==================== -->
+    <section id="quizScreen" class="hidden fade-in space-y-5">
+      <!-- Progress & Metadata Header -->
+      <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span id="quizTierBadge" class="text-xs font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-teal-100 text-teal-800">
+              Higher Tier
+            </span>
+            <span id="quizTopicBadge" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700">
+              Cell Structure
+            </span>
+            <span id="quizRpBadge" class="hidden text-xs font-extrabold px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 border border-amber-300">
+              Required Practical
+            </span>
+          </div>
+
+          <div class="flex items-center gap-4 text-sm font-bold text-slate-700">
+            <span id="questionCounterText">Question 1 of 10</span>
+            <span class="text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-lg border border-emerald-200">
+              Score: <span id="liveScoreText">0</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+          <div id="quizProgressBar" class="h-full bg-gradient-to-r from-teal-500 to-emerald-500 transition-all duration-300" style="width: 10%;"></div>
+        </div>
+      </div>
+
+      <!-- Question Card -->
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-md border border-slate-200">
+        <h3 id="questionPrompt" class="text-lg sm:text-xl font-bold text-slate-900 leading-relaxed mb-6">
+          Loading question...
+        </h3>
+
+        <!-- Options List -->
+        <div id="optionsContainer" class="space-y-3"></div>
+
+        <!-- Instant AQA Mark-Scheme Feedback Box -->
+        <div id="feedbackBox" class="hidden mt-6 rounded-2xl p-5 border-2 fade-in">
+          <div class="flex items-start gap-3">
+            <div id="feedbackIcon" class="w-7 h-7 rounded-full flex items-center justify-center font-extrabold text-sm shrink-0 mt-0.5"></div>
+            <div class="flex-1">
+              <h4 id="feedbackHeading" class="font-extrabold text-base"></h4>
+              <p id="feedbackExplanation" class="text-sm mt-1.5 leading-relaxed"></p>
+            </div>
+          </div>
+
+          <div class="mt-5 flex justify-end">
+            <button
+              type="button"
+              id="nextQuestionBtn"
+              onclick="handleNextQuestion()"
+              class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm sm:text-base transition flex items-center gap-2 shadow"
+            >
+              <span id="nextBtnText">Next Question</span>
+              <span>&rarr;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: DIAGNOSTIC REPORT ==================== -->
+    <section id="resultsScreen" class="hidden fade-in space-y-6">
+      <!-- Summary Hero Card -->
+      <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-slate-900 via-teal-900 to-emerald-900 p-6 sm:p-8 text-white">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <span class="inline-block text-xs font-bold uppercase tracking-wider bg-white/15 text-teal-200 px-3 py-1 rounded-full mb-2">
+                AQA GCSE Cell Biology Diagnostic Report
+              </span>
+              <h2 id="reportStudentTitle" class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                Well done, Student!
+              </h2>
+              <p id="reportMetaSubtitle" class="text-sm text-slate-200 mt-1">
+                Higher Tier &bull; All Cell Biology Topics
+              </p>
+            </div>
+
+            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-6 py-4 text-center shrink-0">
+              <div id="reportPercentage" class="text-3xl sm:text-4xl font-extrabold text-emerald-300">
+                0%
+              </div>
+              <div id="reportFraction" class="text-xs sm:text-sm font-semibold text-slate-200 mt-0.5">
+                0 / 10 Correct
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons Row -->
+        <div class="p-5 sm:p-6 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            id="retryMissedBtn"
+            onclick="startMissedQuestionsQuiz()"
+            class="hidden px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-sm shadow-sm transition flex items-center gap-2"
+          >
+            <span>Retry Missed Questions (<span id="missedCountLabel">0</span>)</span>
+          </button>
+
+          <button
+            type="button"
+            onclick="copyResultsSummary()"
+            class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm shadow-sm transition flex items-center gap-2"
+          >
+            <span id="copyBtnLabel">Copy Results Summary</span>
+          </button>
+
+          <a
+            id="emailResultsLink"
+            href="#"
+            class="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold text-sm transition flex items-center gap-2"
+          >
+            <span>Email Results</span>
+          </a>
+
+          <button
+            type="button"
+            onclick="returnToMenu()"
+            class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm transition ml-auto"
+          >
+            Back to Menu
+          </button>
+        </div>
+
+        <!-- Topic-by-Topic Breakdown -->
+        <div class="p-6 sm:p-8">
+          <h3 class="text-lg font-extrabold text-slate-900 mb-1">Topic-by-Topic Performance Breakdown</h3>
+          <p class="text-xs sm:text-sm text-slate-500 mb-5">
+            Identify your strongest topics and target areas needing further revision.
+          </p>
+          <div id="topicBreakdownContainer" class="space-y-4"></div>
+        </div>
+      </div>
+
+      <!-- Question Review Accordion/List -->
+      <div class="bg-white rounded-2xl shadow-md border border-slate-200 p-6 sm:p-8">
+        <h3 class="text-lg font-extrabold text-slate-900 mb-4">Question-by-Question Review</h3>
+        <div id="questionReviewList" class="space-y-4"></div>
+      </div>
+    </section>
+
+    <!-- Custom In-App Confirmation Modal (No browser confirm/alert) -->
+    <div id="confirmModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+        <h3 class="text-lg font-extrabold text-slate-900">Return to Quiz Menu?</h3>
+        <p class="text-sm text-slate-600 mt-2">
+          Your current quiz progress will be lost if you return to the start screen.
+        </p>
+        <div class="mt-6 flex justify-end gap-3">
+          <button type="button" onclick="closeConfirmModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm">
+            Continue Quiz
+          </button>
+          <button type="button" onclick="returnToMenu()" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm">
+            Yes, Exit Quiz
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 py-5 mt-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <span class="font-semibold text-slate-700">Mr Leek Science &bull; AQA GCSE Biology (8461 &amp; 8464)</span>
+      <span>Topic 1: Cell Biology Revision &amp; Required Practicals</span>
+    </div>
+  </footer>
+
+  <script>
+    // =========================================================================
+    // 1. COMPREHENSIVE AQA GCSE CELL BIOLOGY QUESTION BANK (110+ QUESTIONS)
+    //    Tagged by tier ('foundation' | 'higher' | 'separate'), topic,
+    //    and isRequiredPractical (true | false).
+    // =========================================================================
+    const QUESTION_BANK = [
+      // -------------------- FOUNDATION TIER: CELL STRUCTURE --------------------
+      {
+        id: 1,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Which subcellular structure controls the activities of a eukaryotic cell and contains its genetic material?',
+        options: ['Nucleus', 'Ribosome', 'Cell membrane', 'Mitochondrion'],
+        answer: 0,
+        explanation: 'The nucleus contains the genetic material (DNA arranged in chromosomes) and controls the activities of the cell.'
+      },
+      {
+        id: 2,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Where do most of the chemical reactions take place inside an animal or plant cell?',
+        options: ['Cytoplasm', 'Cell wall', 'Permanent vacuole', 'Chloroplast'],
+        answer: 0,
+        explanation: 'Cytoplasm is a jelly-like substance where most chemical reactions take place, controlled by enzymes.'
+      },
+      {
+        id: 3,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Which structure controls the movement of substances into and out of a cell?',
+        options: ['Cell membrane', 'Cell wall', 'Cytoplasm', 'Nucleus'],
+        answer: 0,
+        explanation: 'The cell membrane is selectively permeable and controls which substances enter and leave the cell.'
+      },
+      {
+        id: 4,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'In which organelle does aerobic respiration take place to transfer energy for the cell?',
+        options: ['Mitochondria', 'Ribosomes', 'Chloroplasts', 'Vacuole'],
+        answer: 0,
+        explanation: 'Mitochondria are the site of aerobic respiration, transferring energy needed for cellular processes.'
+      },
+      {
+        id: 5,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'What is the function of ribosomes in both eukaryotic and prokaryotic cells?',
+        options: ['Protein synthesis', 'Aerobic respiration', 'Photosynthesis', 'Storing cell sap'],
+        answer: 0,
+        explanation: 'Ribosomes are the site of protein synthesis, where amino acids are joined together to make proteins.'
+      },
+      {
+        id: 6,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Which three subcellular structures are found in plant cells but NOT in animal cells?',
+        options: [
+          'Cell wall, chloroplasts and permanent vacuole',
+          'Nucleus, mitochondria and ribosomes',
+          'Cell membrane, cytoplasm and plasmids',
+          'Flagellum, cell wall and mitochondria'
+        ],
+        answer: 0,
+        explanation: 'Plant cells contain a cellulose cell wall, chloroplasts (in photosynthetic tissues), and a permanent vacuole filled with cell sap.'
+      },
+      {
+        id: 7,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'What substance is a plant cell wall made of to strengthen the cell?',
+        options: ['Cellulose', 'Chitin', 'Glycogen', 'Starch'],
+        answer: 0,
+        explanation: 'Plant and algal cell walls are made of cellulose, which strengthens and supports the cell.'
+      },
+      {
+        id: 8,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'What is stored inside the permanent vacuole of a plant cell?',
+        options: ['Cell sap', 'Chlorophyll', 'Chromosomes', 'Haemoglobin'],
+        answer: 0,
+        explanation: 'The permanent vacuole contains cell sap (a weak solution of sugars and salts) and helps keep the cell turgid.'
+      },
+      {
+        id: 9,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Which pigment inside chloroplasts absorbs light energy for photosynthesis?',
+        options: ['Chlorophyll', 'Cellulose', 'Melanin', 'Haemoglobin'],
+        answer: 0,
+        explanation: 'Chloroplasts contain the green pigment chlorophyll, which absorbs light energy to make food by photosynthesis.'
+      },
+      {
+        id: 10,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'How is the genetic material arranged inside a prokaryotic bacterial cell?',
+        options: [
+          'A single circular DNA loop free in the cytoplasm, plus small rings called plasmids',
+          'Enclosed inside a double-membraned nucleus',
+          'Stored inside mitochondria and chloroplasts',
+          'Wrapped inside a cellulose capsule'
+        ],
+        answer: 0,
+        explanation: 'Prokaryotic cells have no nucleus; instead they have a single circular loop of DNA free in the cytoplasm and may contain small rings of DNA called plasmids.'
+      },
+      {
+        id: 11,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Which of the following is an example of a prokaryotic organism?',
+        options: ['Bacterium', 'Yeast fungus', 'Oak tree', 'Human cheek cell'],
+        answer: 0,
+        explanation: 'Bacteria are prokaryotic cells (smaller and simpler without a nucleus), whereas plants, animals, and fungi are eukaryotic.'
+      },
+      {
+        id: 12,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Which adaptation helps a sperm cell swim towards an egg cell?',
+        options: [
+          'A streamlined head and a long tail (flagellum), plus many mitochondria',
+          'A large permanent vacuole and many chloroplasts',
+          'A long axon covered in a myelin sheath',
+          'Hollow tubes strengthened by rings of lignin'
+        ],
+        answer: 0,
+        explanation: 'Sperm cells have a tail for swimming, a streamlined shape, packed mitochondria for energy, and enzymes in the head to digest the egg membrane.'
+      },
+      {
+        id: 13,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'How is a root hair cell adapted for absorbing water and mineral ions from soil?',
+        options: [
+          'A long hair-like projection that gives a large surface area',
+          'Many chloroplasts to absorb sunlight underground',
+          'A thick waxy cuticle to prevent water entering',
+          'Lignin spirals to withstand high water pressure'
+        ],
+        answer: 0,
+        explanation: 'Root hair cells have long projections that increase the surface area for absorbing water (by osmosis) and mineral ions (by active transport).'
+      },
+      {
+        id: 14,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'What is the main function of xylem vessels in a plant?',
+        options: [
+          'Transporting water and mineral ions from roots to leaves',
+          'Transporting dissolved sugars up and down the plant',
+          'Carrying out photosynthesis in the stem',
+          'Absorbing carbon dioxide from the atmosphere'
+        ],
+        answer: 0,
+        explanation: 'Xylem cells are hollow dead tubes strengthened with lignin that transport water and mineral ions up the plant.'
+      },
+      {
+        id: 15,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Which adaptation allows muscle cells to contract quickly and repeatedly?',
+        options: [
+          'They contain many mitochondria to transfer energy and special sliding protein fibres',
+          'They have no nucleus so more oxygen can fit inside',
+          'They have sieve plates at each end of the cell',
+          'They have a cellulose cell wall for rigidity'
+        ],
+        answer: 0,
+        explanation: 'Muscle cells contain protein fibres that can contract and many mitochondria to release energy via aerobic respiration.'
+      },
+      {
+        id: 16,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'What is cell differentiation?',
+        options: [
+          'The process by which a cell changes to become specialised for its job',
+          'The division of one bacterial cell into two identical cells',
+          'The movement of water across a partially permeable membrane',
+          'The breakdown of glucose during respiration'
+        ],
+        answer: 0,
+        explanation: 'Differentiation is the process where unspecialised cells develop different subcellular structures to become specialised for a specific function.'
+      },
+      {
+        id: 17,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'How does cell differentiation differ between most animal cells and plant cells?',
+        options: [
+          'Most animal cells differentiate at an early stage, whereas many plant cells keep the ability to differentiate throughout life',
+          'Animal cells never differentiate, whereas plant cells stop differentiating as seeds',
+          'Only animal cells have meristems that divide throughout life',
+          'Plant cells lose their nucleus when they differentiate'
+        ],
+        answer: 0,
+        explanation: 'Most animal cells differentiate early in development, whereas many plant cells retain the ability to differentiate throughout the life of the plant.'
+      },
+      {
+        id: 18,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'What is the correct formula linking magnification, image size, and actual (real) size?',
+        options: [
+          'Magnification = Image size ÷ Actual size',
+          'Magnification = Actual size ÷ Image size',
+          'Magnification = Image size × Actual size',
+          'Magnification = Image size + Actual size'
+        ],
+        answer: 0,
+        explanation: 'Magnification = size of image ÷ size of real object (M = I ÷ A).'
+      },
+      {
+        id: 19,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'How many micrometres (μm) are there in 1 millimetre (mm)?',
+        options: ['1,000 μm', '100 μm', '10 μm', '1,000,000 μm'],
+        answer: 0,
+        explanation: '1 mm = 1,000 μm (multiply millimetres by 1,000 to convert into micrometres).'
+      },
+      {
+        id: 20,
+        tier: 'foundation',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'A cheek cell has an actual diameter of 50 μm. Under a microscope, its image measures 5,000 μm. What is the magnification?',
+        options: ['×100', '×10', '×500', '×250,000'],
+        answer: 0,
+        explanation: 'Magnification = Image size ÷ Actual size = 5,000 ÷ 50 = ×100.'
+      },
+
+      // -------------------- FOUNDATION TIER: CELL DIVISION --------------------
+      {
+        id: 21,
+        tier: 'foundation',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'How many pairs of chromosomes are found in a normal human body cell?',
+        options: ['23 pairs (46 chromosomes)', '46 pairs (92 chromosomes)', '22 pairs (44 chromosomes)', '12 pairs (24 chromosomes)'],
+        answer: 0,
+        explanation: 'Human body cells contain 23 pairs of chromosomes (46 individual chromosomes in total).'
+      },
+      {
+        id: 22,
+        tier: 'foundation',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'What happens to a cell’s DNA and subcellular structures before mitosis begins?',
+        options: [
+          'The cell grows, increases the number of subcellular structures (like mitochondria and ribosomes), and replicates its DNA',
+          'The cell splits immediately into four genetically different cells',
+          'The nucleus dissolves permanently and chromosomes are lost',
+          'The cell shrinks to half its original volume'
+        ],
+        answer: 0,
+        explanation: 'During the growth phase before mitosis, the cell grows larger, increases its mitochondria and ribosomes, and duplicates its DNA to form two copies of each chromosome.'
+      },
+      {
+        id: 23,
+        tier: 'foundation',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'What is produced at the end of one complete mitotic cell cycle?',
+        options: [
+          'Two genetically identical diploid daughter cells',
+          'Four genetically different haploid gametes',
+          'Two cells each with half the original number of chromosomes',
+          'One large cell with two nuclei'
+        ],
+        answer: 0,
+        explanation: 'Mitosis produces two genetically identical cells with the same number of chromosomes as the parent cell, essential for growth and repair.'
+      },
+      {
+        id: 24,
+        tier: 'foundation',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'Why is mitosis important in multicellular organisms?',
+        options: [
+          'For growth and development, and to replace damaged or worn-out cells',
+          'To produce sperm and egg cells for sexual reproduction',
+          'To absorb water from the soil through root hairs',
+          'To digest starch into glucose in the small intestine'
+        ],
+        answer: 0,
+        explanation: 'Cell division by mitosis is vital for growth, development of multicellular organisms, and repair/replacement of damaged tissues.'
+      },
+      {
+        id: 25,
+        tier: 'foundation',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'What is a stem cell?',
+        options: [
+          'An undifferentiated cell capable of dividing to produce more stem cells and differentiating into other cell types',
+          'A fully specialised nerve cell that cannot divide',
+          'A dead plant cell found in xylem tissue',
+          'A bacterial plasmid carrying antibiotic resistance'
+        ],
+        answer: 0,
+        explanation: 'A stem cell is an undifferentiated cell of an organism capable of giving rise to many more cells of the same type, from which other cells arise by differentiation.'
+      },
+      {
+        id: 26,
+        tier: 'foundation',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'Where are stem cells found in adult humans, and what can they differentiate into?',
+        options: [
+          'In bone marrow; they can differentiate into many types of cells such as blood cells',
+          'In the brain; they can differentiate into any type of human cell',
+          'In skin hair follicles; they can differentiate into plant xylem cells',
+          'In red blood cells; they can differentiate into muscle cells'
+        ],
+        answer: 0,
+        explanation: 'Adult stem cells are found in bone marrow and can differentiate into many (though not all) types of cells, including red and white blood cells.'
+      },
+      {
+        id: 27,
+        tier: 'foundation',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'Where are plant stem cells located?',
+        options: [
+          'In meristem tissue at the tips of roots and shoots',
+          'Inside the dead hollow tubes of xylem',
+          'Only inside flower petals',
+          'Inside the waxy cuticle of leaves'
+        ],
+        answer: 0,
+        explanation: 'Plant stem cells are found in meristems (growing tips of roots and shoots) and can differentiate into any type of plant cell throughout the plant’s life.'
+      },
+      {
+        id: 28,
+        tier: 'foundation',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'Which two medical conditions could potentially be treated using human stem cells?',
+        options: [
+          'Diabetes and paralysis',
+          'Short-sightedness and colour blindness',
+          'Influenza and athlete’s foot',
+          'Scurvy and rickets'
+        ],
+        answer: 0,
+        explanation: 'Stem cells can be used to replace damaged insulin-producing cells in diabetes or damaged nerve cells in spinal cord paralysis.'
+      },
+      {
+        id: 29,
+        tier: 'foundation',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'How is an embryo produced in therapeutic cloning?',
+        options: [
+          'An embryo is produced with the same genes as the patient so stem cells are not rejected by the patient’s body',
+          'Two sperm cells are fused together without an egg cell',
+          'Plant meristem cells are implanted into human bone marrow',
+          'Bacterial plasmids are injected into a fertilised egg'
+        ],
+        answer: 0,
+        explanation: 'In therapeutic cloning, an embryo is produced with the same genes as the patient so the resulting stem cells will not be rejected by the patient’s immune system.'
+      },
+      {
+        id: 30,
+        tier: 'foundation',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'Why are plant meristem stem cells useful in agriculture and conservation?',
+        options: [
+          'They can quickly and cheaply clone rare species to protect them from extinction or produce large numbers of disease-resistant crop plants',
+          'They turn plant leaves into animal muscle tissue',
+          'They prevent plants from needing water or light',
+          'They kill all bacteria in the surrounding soil'
+        ],
+        answer: 0,
+        explanation: 'Stem cells from plant meristems can be used to produce clones of plants quickly and economically—protecting rare species or producing identical crops with desired features.'
+      },
+
+      // -------------------- FOUNDATION TIER: TRANSPORT IN CELLS --------------------
+      {
+        id: 31,
+        tier: 'foundation',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'What is the definition of diffusion?',
+        options: [
+          'The spreading out of particles of any substance in solution, or particles of a gas, resulting in a net movement from an area of higher concentration to an area of lower concentration',
+          'The movement of water molecules from a concentrated solution to a dilute solution through a cell wall',
+          'The movement of mineral ions against a concentration gradient using energy from respiration',
+          'The division of a cell nucleus into two identical nuclei'
+        ],
+        answer: 0,
+        explanation: 'Diffusion is the net movement of particles from an area of higher concentration to an area of lower concentration down a concentration gradient (a passive process).'
+      },
+      {
+        id: 32,
+        tier: 'foundation',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'Which three factors increase the rate of diffusion across a cell membrane?',
+        options: [
+          'A steeper concentration gradient, a higher temperature, and a larger surface area of the membrane',
+          'A smaller surface area, a lower temperature, and a thicker membrane',
+          'Lower kinetic energy of particles, smaller concentration difference, and fewer mitochondria',
+          'Higher light intensity, lower humidity, and thicker cell walls'
+        ],
+        answer: 0,
+        explanation: 'Diffusion is faster when there is a bigger difference in concentration (steeper gradient), a higher temperature (particles move faster), and a larger membrane surface area.'
+      },
+      {
+        id: 33,
+        tier: 'foundation',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'Which gas diffuses from the alveoli in the lungs into the blood plasma and red blood cells?',
+        options: ['Oxygen', 'Carbon dioxide', 'Nitrogen', 'Urea'],
+        answer: 0,
+        explanation: 'Oxygen is at a higher concentration in inhaled air in the alveoli than in deoxygenated blood, so it diffuses into the blood.'
+      },
+      {
+        id: 34,
+        tier: 'foundation',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'What is osmosis?',
+        options: [
+          'The diffusion of water from a dilute solution to a concentrated solution through a partially permeable membrane',
+          'The movement of glucose molecules from low to high concentration using ATP',
+          'The diffusion of oxygen gas across the alveoli wall',
+          'The active pumping of sodium ions out of nerve cells'
+        ],
+        answer: 0,
+        explanation: 'Osmosis is the diffusion of water molecules from a dilute solution (high water concentration) to a more concentrated solution (lower water concentration) through a partially permeable membrane.'
+      },
+      {
+        id: 35,
+        tier: 'foundation',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'What happens to a plant cell when it is placed in pure water?',
+        options: [
+          'Water enters the cell by osmosis, the vacuole swells, and the cell becomes turgid (firm) without bursting due to the cell wall',
+          'Water leaves the cell by osmosis and the cell shrinks and shrivels',
+          'Water enters the cell until the cell membrane bursts open',
+          'No water moves in or out of the cell'
+        ],
+        answer: 0,
+        explanation: 'Water moves into the plant cell by osmosis from the dilute external water into the more concentrated cell sap, making the cell turgid; the tough cellulose cell wall stops it bursting.'
+      },
+      {
+        id: 36,
+        tier: 'foundation',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'What happens to an animal red blood cell if it is placed in pure distilled water?',
+        options: [
+          'Water enters by osmosis and the cell swells and bursts (lysis) because it has no cell wall',
+          'It becomes turgid and rigid like a plant cell',
+          'Water leaves the cell and it shrivels up',
+          'It divides rapidly by binary fission'
+        ],
+        answer: 0,
+        explanation: 'Animal cells lack a cell wall, so when water enters by osmosis in a dilute solution, the cell swells and bursts.'
+      },
+      {
+        id: 37,
+        tier: 'foundation',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'How does active transport differ from diffusion and osmosis?',
+        options: [
+          'Active transport moves substances from a more dilute solution to a more concentrated solution (against a concentration gradient) and requires energy from respiration',
+          'Active transport only moves water molecules down a concentration gradient',
+          'Active transport requires no energy and happens faster at 0 °C',
+          'Active transport only happens in dead xylem cells'
+        ],
+        answer: 0,
+        explanation: 'Active transport moves substances against a concentration gradient (from low to high concentration) and requires energy transferred from cellular respiration.'
+      },
+      {
+        id: 38,
+        tier: 'foundation',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'Which two biological processes rely on active transport?',
+        options: [
+          'Absorption of mineral ions into plant root hairs from dilute soil, and absorption of sugar (glucose) from the gut into the blood',
+          'Movement of oxygen into alveoli and carbon dioxide out of blood',
+          'Movement of water into potato cylinders in pure water',
+          'Evaporation of water from leaf stomata'
+        ],
+        answer: 0,
+        explanation: 'Root hairs absorb low-concentration mineral ions from soil, and small intestine cells absorb glucose into the blood even when blood glucose is higher, both using active transport.'
+      },
+      {
+        id: 39,
+        tier: 'foundation',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'How are the small intestine and lungs in mammals adapted for exchanging materials efficiently?',
+        options: [
+          'Having a large surface area (villi / alveoli), thin walls (one cell thick), and an efficient blood supply',
+          'Having thick muscular walls and very few blood capillaries',
+          'Being covered in a waterproof waxy cuticle',
+          'Having a small surface area to volume ratio'
+        ],
+        answer: 0,
+        explanation: 'Exchange surfaces have a large surface area, a thin membrane for a short diffusion path, and an efficient blood supply (in animals) to maintain a steep concentration gradient.'
+      },
+      {
+        id: 40,
+        tier: 'foundation',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'How are fish gills adapted for efficient gas exchange in water?',
+        options: [
+          'Made of many thin filaments and lamellae providing a huge surface area and a rich blood supply',
+          'Covered in thick scales to slow down oxygen diffusion',
+          'Filled with air sacs called alveoli',
+          'Lined with guard cells that close at night'
+        ],
+        answer: 0,
+        explanation: 'Fish gills consist of stacks of gill filaments covered in tiny folds (lamellae) that provide a massive surface area, thin walls, and a rich capillary network.'
+      },
+
+      // -------------------- REQUIRED PRACTICAL 1: MICROSCOPY --------------------
+      {
+        id: 41,
+        tier: 'foundation',
+        topic: 'Required Practical: Microscopy',
+        isRequiredPractical: true,
+        question: 'Why is a drop of iodine solution added to onion epidermal cells when preparing a slide for light microscopy?',
+        options: [
+          'To stain transparent cell structures (such as the nucleus and cell wall) so they are clearly visible',
+          'To kill harmful bacteria on the glass slide',
+          'To dissolve the cellulose cell wall so chloroplasts fall out',
+          'To stick the coverslip permanently to the objective lens'
+        ],
+        answer: 0,
+        explanation: 'Onion cells are transparent; iodine solution acts as a stain to make subcellular structures like the nucleus and cell wall visible under a light microscope.'
+      },
+      {
+        id: 42,
+        tier: 'foundation',
+        topic: 'Required Practical: Microscopy',
+        isRequiredPractical: true,
+        question: 'Which stain is commonly used when preparing a human cheek cell slide?',
+        options: ['Methylene blue', 'Benedict’s solution', 'Biuret reagent', 'Ethanol'],
+        answer: 0,
+        explanation: 'Methylene blue stains animal cells (like cheek cells) blue, making the nucleus and cytoplasm easy to observe.'
+      },
+      {
+        id: 43,
+        tier: 'foundation',
+        topic: 'Required Practical: Microscopy',
+        isRequiredPractical: true,
+        question: 'When placing a coverslip onto a microscope slide, why should you lower it gently at an angle using a mounted needle?',
+        options: [
+          'To prevent trapping air bubbles under the coverslip which would obscure the cells',
+          'To squash the onion cells flat so they burst',
+          'To prevent the stain from evaporating',
+          'To increase the magnification of the eyepiece lens'
+        ],
+        answer: 0,
+        explanation: 'Lowering the coverslip slowly at an angle pushes air out and avoids trapping air bubbles, which look like dark circles and block the view of the specimen.'
+      },
+      {
+        id: 44,
+        tier: 'foundation',
+        topic: 'Required Practical: Microscopy',
+        isRequiredPractical: true,
+        question: 'Which objective lens should you ALWAYS select first when focusing a specimen on a light microscope?',
+        options: [
+          'The lowest power objective lens (e.g., ×4)',
+          'The highest power objective lens (e.g., ×40 or ×100)',
+          'Any lens at random with the stage at the very bottom',
+          'The oil-immersion lens with the fine focus knob'
+        ],
+        answer: 0,
+        explanation: 'Starting with the lowest power objective lens gives the widest field of view, makes it easiest to locate the specimen, and prevents crashing the lens into the slide.'
+      },
+      {
+        id: 45,
+        tier: 'foundation',
+        topic: 'Required Practical: Microscopy',
+        isRequiredPractical: true,
+        question: 'What is the correct sequence of focus adjustments when viewing a slide on a light microscope?',
+        options: [
+          'Use the coarse focus knob first under low power to bring the image into rough focus, then switch to higher power and use only the fine focus knob',
+          'Use the fine focus knob first under high power, then turn the coarse focus knob fully',
+          'Move the stage all the way down using the fine focus knob before turning on the light',
+          'Adjust the eyepiece lens with a spanner until the image is sharp'
+        ],
+        answer: 0,
+        explanation: 'The coarse adjustment wheel moves the stage rapidly to find the image under low power; once at higher magnification, only the fine adjustment wheel is used to sharpen focus safely.'
+      },
+      {
+        id: 46,
+        tier: 'foundation',
+        topic: 'Required Practical: Microscopy',
+        isRequiredPractical: true,
+        question: 'A microscope has an eyepiece lens of ×10 and an objective lens of ×40. What is the total magnification?',
+        options: ['×400', '×50', '×4', '×4,000'],
+        answer: 0,
+        explanation: 'Total magnification = eyepiece magnification × objective magnification = 10 × 40 = ×400.'
+      },
+      {
+        id: 47,
+        tier: 'foundation',
+        topic: 'Required Practical: Microscopy',
+        isRequiredPractical: true,
+        question: 'Which rules must be followed when making a scientific biological drawing of cells seen under a microscope?',
+        options: [
+          'Use a sharp pencil, draw clear unbroken lines, do not shade or colour, include a title and magnification/scale bar, and label with straight ruled lines',
+          'Use a coloured pen, shade in the cytoplasm artistically, and draw from memory rather than the slide',
+          'Sketch fuzzy overlapping lines and use arrows with arrowheads pointing to labels',
+          'Draw the circular field of view border and fill the entire page with shading'
+        ],
+        answer: 0,
+        explanation: 'AQA biological drawings require a sharp HB pencil, continuous single lines, no shading/sketching, true proportions, ruled label lines without arrowheads, and a stated magnification.'
+      },
+      {
+        id: 48,
+        tier: 'higher',
+        topic: 'Required Practical: Microscopy',
+        isRequiredPractical: true,
+        question: 'In a light microscope drawing, an onion cell measures 36 mm long. If the total magnification is ×400, what is the actual length of the cell in micrometres (μm)?',
+        options: ['90 μm', '9 μm', '14,400 μm', '900 μm'],
+        answer: 0,
+        explanation: 'Convert 36 mm to μm: 36 × 1,000 = 36,000 μm. Actual size = Image size ÷ Magnification = 36,000 ÷ 400 = 90 μm.'
+      },
+      {
+        id: 49,
+        tier: 'higher',
+        topic: 'Required Practical: Microscopy',
+        isRequiredPractical: true,
+        question: 'When switching from a ×10 objective lens to a ×40 objective lens on a light microscope, what happens to the field of view and brightness?',
+        options: [
+          'The field of view becomes four times narrower (fewer cells visible) and the image appears dimmer',
+          'The field of view becomes wider and much brighter',
+          'More cells fit inside the field of view at the same brightness',
+          'The image becomes inverted upside down for the first time'
+        ],
+        answer: 0,
+        explanation: 'Increasing magnification by ×4 zooms into a 4× smaller diameter of the specimen, showing fewer cells in greater detail and spreading light over a larger area (dimmer image).'
+      },
+
+      // -------------------- REQUIRED PRACTICAL 3: OSMOSIS --------------------
+      {
+        id: 50,
+        tier: 'foundation',
+        topic: 'Required Practical: Osmosis',
+        isRequiredPractical: true,
+        question: 'In the osmosis required practical, why are potato cylinders cut using a cork borer and trimmed to the same length?',
+        options: [
+          'To ensure all potato cylinders have the same diameter and similar surface area to volume ratio (control variables)',
+          'To make sure all cylinders float on top of the sugar solution',
+          'To remove all starch from the potato cells before weighing',
+          'To ensure every cylinder has a different starting mass'
+        ],
+        answer: 0,
+        explanation: 'Using a cork borer and cutting equal lengths keeps the surface area and diameter constant so the rate of osmosis can be compared fairly across concentrations.'
+      },
+      {
+        id: 51,
+        tier: 'foundation',
+        topic: 'Required Practical: Osmosis',
+        isRequiredPractical: true,
+        question: 'Why must each potato cylinder be gently blotted dry with a paper towel before recording its final mass?',
+        options: [
+          'To remove excess surface water/solution so only the change in mass of the potato tissue itself is measured',
+          'To squeeze water out of the inside of the potato cells',
+          'To warm the potato cylinder back up to room temperature',
+          'To sterilise the potato cylinder before placing it on the balance'
+        ],
+        answer: 0,
+        explanation: 'Surface liquid clinging to the outside of the potato would artificially add to the mass reading; blotting removes external liquid without squeezing internal cell water out.'
+      },
+      {
+        id: 52,
+        tier: 'foundation',
+        topic: 'Required Practical: Osmosis',
+        isRequiredPractical: true,
+        question: 'In the osmosis investigation using different concentrations of sugar solution, what are the independent and dependent variables?',
+        options: [
+          'Independent: concentration of sugar solution; Dependent: percentage change in mass of potato cylinder',
+          'Independent: percentage change in mass; Dependent: volume of sugar solution',
+          'Independent: temperature of the room; Dependent: diameter of the cork borer',
+          'Independent: time left in solution; Dependent: concentration of sugar solution'
+        ],
+        answer: 0,
+        explanation: 'The experimenter changes the concentration of the sugar/salt solution (independent variable) and measures the resulting percentage change in mass (dependent variable).'
+      },
+      {
+        id: 53,
+        tier: 'foundation',
+        topic: 'Required Practical: Osmosis',
+        isRequiredPractical: true,
+        question: 'Why do we calculate percentage change in mass rather than just using the raw change in mass in grams?',
+        options: [
+          'Because the potato cylinders may not have had the exact same starting mass, so percentage change allows a valid comparison',
+          'Because digital balances only measure in percentages',
+          'Because percentage change eliminates the need to blot the potato dry',
+          'Because negative numbers cannot be plotted on a graph'
+        ],
+        answer: 0,
+        explanation: 'Even when cut to the same length, potato cylinders vary slightly in initial mass; percentage change normalises the data so all samples can be compared fairly.'
+      },
+      {
+        id: 54,
+        tier: 'foundation',
+        topic: 'Required Practical: Osmosis',
+        isRequiredPractical: true,
+        question: 'A potato cylinder has an initial mass of 2.50 g and a final mass of 2.75 g after being placed in distilled water. What is its percentage change in mass?',
+        options: ['+10.0%', '+0.25%', '-10.0%', '+9.1%'],
+        answer: 0,
+        explanation: 'Change in mass = 2.75 − 2.50 = +0.25 g. Percentage change = (0.25 ÷ 2.50) × 100 = +10.0%.'
+      },
+      {
+        id: 55,
+        tier: 'higher',
+        topic: 'Required Practical: Osmosis',
+        isRequiredPractical: true,
+        question: 'A potato cylinder starts at 3.20 g and ends at 2.72 g in a 0.8 mol/dm³ sucrose solution. Calculate the percentage change in mass.',
+        options: ['-15.0%', '-0.48%', '+15.0%', '-17.6%'],
+        answer: 0,
+        explanation: 'Change in mass = 2.72 − 3.20 = −0.48 g. Percentage change = (−0.48 ÷ 3.20) × 100 = −15.0%.'
+      },
+      {
+        id: 56,
+        tier: 'higher',
+        topic: 'Required Practical: Osmosis',
+        isRequiredPractical: true,
+        question: 'On a graph of percentage change in mass (y-axis) against sucrose concentration (x-axis), how do you determine the concentration of the potato cell sap?',
+        options: [
+          'Read the sucrose concentration where the line of best fit crosses the x-axis (0% change in mass)',
+          'Read the highest positive percentage change at 0.0 mol/dm³',
+          'Calculate the gradient of the steepest part of the curve',
+          'Read the y-intercept where sucrose concentration is zero'
+        ],
+        answer: 0,
+        explanation: 'Where percentage change in mass = 0%, there is no net movement of water by osmosis because the external solution is isotonic (equal concentration) to the potato cell sap.'
+      },
+      {
+        id: 57,
+        tier: 'higher',
+        topic: 'Required Practical: Osmosis',
+        isRequiredPractical: true,
+        question: 'Why should boiling tubes containing potato cylinders and sugar solutions be covered with a bung or cling film during a 24-hour osmosis experiment?',
+        options: [
+          'To prevent evaporation of water from the solution, which would increase the solution concentration over time',
+          'To stop oxygen entering so the potato carries out anaerobic respiration',
+          'To keep light out so the potato does not photosynthesise',
+          'To increase the pressure inside the tube and force water into cells'
+        ],
+        answer: 0,
+        explanation: 'If water evaporates from an open tube, the sugar solution becomes more concentrated during the experiment, introducing a systematic error.'
+      },
+      {
+        id: 58,
+        tier: 'foundation',
+        topic: 'Required Practical: Osmosis',
+        isRequiredPractical: true,
+        question: 'Which three control variables must be kept constant during the potato osmosis practical?',
+        options: [
+          'Time left in solution, temperature, and volume of solution / potato variety',
+          'Concentration of sugar solution, final mass, and percentage change in mass',
+          'Initial mass of each cylinder, brand of paper towel, and colour of pen',
+          'Concentration of sugar solution, temperature, and final mass'
+        ],
+        answer: 0,
+        explanation: 'Temperature, immersion time, volume of solution, diameter/surface area, and potato variety (age/type) must all be controlled for a valid test.'
+      },
+
+      // -------------------- HIGHER TIER: CELL STRUCTURE & MICROSCOPY --------------------
+      {
+        id: 59,
+        tier: 'higher',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Why do electron microscopes allow biologists to see many more subcellular structures (such as ribosomes and internal mitochondrial membranes) than light microscopes?',
+        options: [
+          'Electron microscopes have a much higher magnification and a much higher resolving power (resolution)',
+          'Electron microscopes use beams of white light with longer wavelengths',
+          'Electron microscopes can view living cells swimming in water',
+          'Electron microscopes do not require any focusing lenses'
+        ],
+        answer: 0,
+        explanation: 'Electron microscopes use a beam of electrons with a much shorter wavelength than light, giving far higher magnification and resolution (ability to distinguish two close points).'
+      },
+      {
+        id: 60,
+        tier: 'higher',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'What is meant by the "resolution" (resolving power) of a microscope?',
+        options: [
+          'The ability to distinguish between two separate points that are very close together',
+          'The number of times larger an image appears compared to the real object',
+          'The brightness of the lamp underneath the microscope stage',
+          'The thickness of the glass coverslip placed over the specimen'
+        ],
+        answer: 0,
+        explanation: 'Resolution is the minimum distance apart that two objects can be in order for them to appear as separate items rather than one blurred point.'
+      },
+      {
+        id: 61,
+        tier: 'higher',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'A mitochondrion has an actual length of 2.5 μm. In an electron micrograph, its image measures 50 mm. Calculate the magnification.',
+        options: ['×20,000', '×20', '×2,000', '×125,000'],
+        answer: 0,
+        explanation: 'Convert 50 mm to μm: 50 × 1,000 = 50,000 μm. Magnification = 50,000 ÷ 2.5 = ×20,000.'
+      },
+      {
+        id: 62,
+        tier: 'higher',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'A virus particle is magnified ×150,000 and appears 12 mm wide in a micrograph. What is its actual width in nanometres (nm)? (1 mm = 1,000,000 nm)',
+        options: ['80 nm', '8 nm', '800 nm', '1.8 nm'],
+        answer: 0,
+        explanation: '12 mm = 12,000,000 nm. Actual size = 12,000,000 ÷ 150,000 = 80 nm.'
+      },
+      {
+        id: 63,
+        tier: 'higher',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'A bacterial cell is 2 × 10⁻⁶ m long, while a typical animal cell is 4 × 10⁻⁵ m long. How many times longer is the animal cell than the bacterial cell?',
+        options: ['20 times longer', '2 times longer', '200 times longer', '0.5 times longer'],
+        answer: 0,
+        explanation: '(4 × 10⁻⁵) ÷ (2 × 10⁻⁶) = 2 × 10¹ = 20 times longer (one order of magnitude larger).'
+      },
+      {
+        id: 64,
+        tier: 'higher',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Express 0.000045 metres in standard form.',
+        options: ['4.5 × 10⁻⁵ m', '4.5 × 10⁵ m', '45 × 10⁻⁶ m', '0.45 × 10⁻⁴ m'],
+        answer: 0,
+        explanation: 'Move the decimal point 5 places to the right to get a number between 1 and 10: 4.5 × 10⁻⁵ m.'
+      },
+      {
+        id: 65,
+        tier: 'higher',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'What is one major limitation of transmission electron microscopes compared to light microscopes?',
+        options: [
+          'Specimens must be dead and placed in a vacuum, and microscopes are very expensive and non-portable',
+          'They have lower resolution than light microscopes',
+          'They cannot magnify objects more than ×1,000',
+          'They can only be used outdoors in natural sunlight'
+        ],
+        answer: 0,
+        explanation: 'Electron beams are scattered by air molecules, so specimens must be dead, dehydrated, and viewed inside a vacuum.'
+      },
+      {
+        id: 66,
+        tier: 'higher',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'How is phloem tissue structurally adapted to transport dissolved sugars (translocation) around a plant?',
+        options: [
+          'Living elongated cells joined end-to-end with perforated sieve plates and companion cells rich in mitochondria',
+          'Hollow dead tubes with thick spiral rings of lignin and no end walls',
+          'Cells packed tightly with chloroplasts and air spaces',
+          'Cells with long hair-like extensions into the soil'
+        ],
+        answer: 0,
+        explanation: 'Phloem consists of living sieve tube elements with perforated end walls (sieve plates) allowing cell sap to flow, supported by mitochondria-rich companion cells.'
+      },
+      {
+        id: 67,
+        tier: 'higher',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'What is the role of the acrosome in the head of a human sperm cell?',
+        options: [
+          'It contains digestive enzymes to break down the outer protective layer of the egg cell',
+          'It generates ATP by aerobic respiration to power the tail',
+          'It stores 46 pairs of chromosomes',
+          'It secretes mucus to lubricate the oviduct'
+        ],
+        answer: 0,
+        explanation: 'The acrosome is a vesicle at the tip of the sperm head containing hydrolytic enzymes that digest the jelly coat of the egg cell during fertilisation.'
+      },
+      {
+        id: 68,
+        tier: 'higher',
+        topic: 'Cell Structure',
+        isRequiredPractical: false,
+        question: 'Why do nerve cells (neurones) have branched endings called dendrites and a fatty myelin sheath around the axon?',
+        options: [
+          'Dendrites form connections with many other neurones, while the myelin sheath insulates the axon to speed up electrical impulse transmission',
+          'Dendrites absorb water by osmosis and myelin stores starch',
+          'Myelin slows down nerve impulses so the brain has time to think',
+          'Dendrites carry oxygen from the lungs to the brain'
+        ],
+        answer: 0,
+        explanation: 'Dendrites make synaptic connections with neighbouring neurones, and the myelin sheath acts as an electrical insulator to increase impulse conduction speed.'
+      },
+
+      // -------------------- HIGHER TIER: CELL DIVISION & STEM CELLS --------------------
+      {
+        id: 69,
+        tier: 'higher',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'What are the three main stages of the eukaryotic cell cycle in the correct order?',
+        options: [
+          'Stage 1: Interphase (cell growth & DNA replication) → Stage 2: Mitosis (chromosomes pulled apart) → Stage 3: Cytokinesis (cytoplasm & membrane divide)',
+          'Stage 1: Cytokinesis → Stage 2: DNA replication → Stage 3: Mitosis',
+          'Stage 1: Mitosis → Stage 2: Meiosis → Stage 3: Differentiation',
+          'Stage 1: Binary fission → Stage 2: Osmosis → Stage 3: Cytokinesis'
+        ],
+        answer: 0,
+        explanation: 'First the cell grows and replicates DNA/organelles (interphase), then replicated chromosomes separate to opposite poles (mitosis), and finally the cytoplasm and cell membrane divide (cytokinesis).'
+      },
+      {
+        id: 70,
+        tier: 'higher',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'In a root tip squash observed under a microscope, 18 out of 120 cells are undergoing mitosis. What is the mitotic index?',
+        options: ['0.15 (or 15%)', '0.067 (or 6.7%)', '1.5 (or 150%)', '6.67'],
+        answer: 0,
+        explanation: 'Mitotic index = Number of cells with visible chromosomes (in mitosis) ÷ Total number of cells = 18 ÷ 120 = 0.15 (15%).'
+      },
+      {
+        id: 71,
+        tier: 'higher',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'A root tip cell cycle takes 16 hours in total. If 12.5% of the cells observed are in mitosis, how long does mitosis last in minutes?',
+        options: ['120 minutes (2 hours)', '20 minutes', '96 minutes', '160 minutes'],
+        answer: 0,
+        explanation: '12.5% of 16 hours = 0.125 × 16 = 2 hours = 120 minutes.'
+      },
+      {
+        id: 72,
+        tier: 'higher',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'What are two potential clinical risks or disadvantages of using embryonic stem cells to treat human diseases?',
+        options: [
+          'Risk of transferring viral infections to the patient, and ethical/religious objections regarding the destruction of potential human life',
+          'Embryonic stem cells can only differentiate into red blood cells and never divide',
+          'Embryonic stem cells always cause the patient’s bones to turn into cellulose',
+          'They require incubating the patient at 25 °C for two weeks'
+        ],
+        answer: 0,
+        explanation: 'Clinical risks include viral contamination during culturing and potential tumour formation, alongside ethical objections to using human embryos.'
+      },
+      {
+        id: 73,
+        tier: 'higher',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'Compare embryonic stem cells with adult bone marrow stem cells in terms of differentiation potential.',
+        options: [
+          'Embryonic stem cells can differentiate into any type of human cell, whereas adult stem cells can only differentiate into a limited range of related cell types',
+          'Adult stem cells can form any body tissue, whereas embryonic stem cells only form blood cells',
+          'Both embryonic and adult stem cells can only form nerve cells',
+          'Neither type can divide by mitosis once extracted'
+        ],
+        answer: 0,
+        explanation: 'Embryonic stem cells are pluripotent (able to form almost any human cell type), whereas adult stem cells are multipotent (restricted to specific lineages like blood cells).'
+      },
+      {
+        id: 74,
+        tier: 'higher',
+        topic: 'Cell Division',
+        isRequiredPractical: false,
+        question: 'What happens during mitosis immediately after the two copies of each chromosome have been pulled to opposite ends of the cell?',
+        options: [
+          'Two new nuclei form around each set of chromosomes, followed by division of the cytoplasm and cell membrane',
+          'The chromosomes are digested by enzymes in the vacuole',
+          'The cell fuses with a neighbouring cell to double its chromosome number',
+          'The chromosomes divide in half again to form four gametes'
+        ],
+        answer: 0,
+        explanation: 'Once the replicated chromosomes are pulled to opposite poles, the nucleus divides (forming two identical nuclei) and then the cytoplasm and cell membrane divide.'
+      },
+
+      // -------------------- HIGHER TIER: TRANSPORT & SA:V --------------------
+      {
+        id: 75,
+        tier: 'higher',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'Calculate the surface area to volume ratio (SA:V) of a cube with side length 2 cm.',
+        options: ['3 : 1', '6 : 1', '1 : 3', '24 : 1'],
+        answer: 0,
+        explanation: 'Surface area = 6 × (2 × 2) = 24 cm². Volume = 2 × 2 × 2 = 8 cm³. Ratio = 24 : 8, which simplifies to 3 : 1.'
+      },
+      {
+        id: 76,
+        tier: 'higher',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'As a single-celled organism increases in size from a 1 mm cube to a 4 mm cube, what happens to its surface area to volume ratio?',
+        options: [
+          'It decreases from 6 : 1 down to 1.5 : 1',
+          'It increases from 1.5 : 1 up to 6 : 1',
+          'It stays exactly 6 : 1 regardless of size',
+          'It increases fourfold'
+        ],
+        answer: 0,
+        explanation: 'For 1 mm cube: SA = 6, Vol = 1 → 6:1. For 4 mm cube: SA = 6×16 = 96, Vol = 64 → 96:64 = 1.5:1. SA:V decreases as organisms get larger.'
+      },
+      {
+        id: 77,
+        tier: 'higher',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'Why do large multicellular animals require specialised exchange organs (such as lungs) and a mass transport system (the circulatory system), whereas single-celled amoebae do not?',
+        options: [
+          'Multicellular organisms have a small surface area to volume ratio, so diffusion across their outer surface alone is too slow to meet cellular metabolic demands',
+          'Amoebae have lungs and blood vessels inside their cytoplasm',
+          'Multicellular organisms have a much larger surface area to volume ratio than bacteria',
+          'Diffusion cannot happen across animal cell membranes'
+        ],
+        answer: 0,
+        explanation: 'Because large organisms have a low SA:V ratio and long diffusion distances to internal cells, simple diffusion across the skin is insufficient.'
+      },
+      {
+        id: 78,
+        tier: 'higher',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'How do epithelial cells lining the small intestine villi maximise the absorption of digested food molecules by both diffusion and active transport?',
+        options: [
+          'They have microvilli to increase surface area, a one-cell-thick wall, a dense capillary network, and numerous mitochondria to provide ATP for active transport',
+          'They have thick walls covered in lignin and very few mitochondria',
+          'They contain chloroplasts to convert glucose into starch',
+          'They have no cell membrane on the side facing the gut lumen'
+        ],
+        answer: 0,
+        explanation: 'Microvilli massively increase surface area, a rich blood supply maintains steep concentration gradients, and abundant mitochondria release energy for active transport of glucose/amino acids.'
+      },
+      {
+        id: 79,
+        tier: 'higher',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'If a respiratory poison (such as cyanide) stops mitochondria from working in a root hair cell, what happens to the uptake of nitrate ions and water?',
+        options: [
+          'Nitrate ion uptake by active transport stops due to lack of energy, while water can still enter passively by osmosis',
+          'Water uptake stops immediately, while nitrate uptake speeds up',
+          'Both nitrate uptake and water uptake stop completely',
+          'Nitrate ions diffuse out of the cell by osmosis'
+        ],
+        answer: 0,
+        explanation: 'Active transport of mineral ions requires energy from respiration, so inhibiting mitochondria stops it; osmosis is passive and does not directly require ATP.'
+      },
+      {
+        id: 80,
+        tier: 'higher',
+        topic: 'Transport in Cells',
+        isRequiredPractical: false,
+        question: 'How are plant leaves adapted for efficient gas exchange of carbon dioxide and oxygen?',
+        options: [
+          'Flat, thin shape giving a large surface area to volume ratio, internal air spaces between spongy mesophyll cells, and stomata controlled by guard cells',
+          'Thick cylindrical shape with no stomata on either surface',
+          'Covered completely in waterproof lignin to trap gases',
+          'Rich capillary blood supply running through the leaf veins'
+        ],
+        answer: 0,
+        explanation: 'Leaves are thin with a large SA:V, have stomata allowing gases to diffuse in/out, and loose spongy mesophyll air spaces creating a large internal exchange surface.'
+      },
+
+      // -------------------- SEPARATE BIOLOGY (8461) & RP2: MICROBIOLOGY --------------------
+      {
+        id: 81,
+        tier: 'separate',
+        topic: 'Required Practical: Microbiology',
+        isRequiredPractical: true,
+        question: 'In Required Practical 2 (testing antiseptics/antibiotics on agar plates), why is an inoculating loop passed through a blue Bunsen flame until it glows red hot before use?',
+        options: [
+          'To sterilise the loop by killing any unwanted microorganisms already present on it',
+          'To melt the plastic Petri dish so the lid seals shut',
+          'To warm the agar jelly so bacteria divide faster',
+          'To remove excess water from the nutrient broth'
+        ],
+        answer: 0,
+        explanation: 'Passing the inoculating loop through a flame sterilises it, preventing contamination of the culture by unwanted airborne or surface microbes.'
+      },
+      {
+        id: 82,
+        tier: 'separate',
+        topic: 'Required Practical: Microbiology',
+        isRequiredPractical: true,
+        question: 'Why must a flame-sterilised inoculating loop be allowed to cool for a few seconds before dipping it into a bacterial suspension?',
+        options: [
+          'So the hot metal does not kill the bacteria being transferred onto the agar plate',
+          'So the metal wire shrinks to fit inside the test tube',
+          'So the loop absorbs oxygen from the Bunsen flame',
+          'So the agar plate does not freeze'
+        ],
+        answer: 0,
+        explanation: 'A red-hot loop will kill the desired bacteria on contact if it is not cooled first.'
+      },
+      {
+        id: 83,
+        tier: 'separate',
+        topic: 'Required Practical: Microbiology',
+        isRequiredPractical: true,
+        question: 'When inoculating an agar plate, why should you lift the Petri dish lid only slightly at an angle rather than removing it completely onto the bench?',
+        options: [
+          'To prevent microorganisms from the air landing on the agar surface and contaminating the culture',
+          'To stop oxygen entering the Petri dish',
+          'To keep the antibiotic discs from blowing away',
+          'To prevent light from killing the bacteria'
+        ],
+        answer: 0,
+        explanation: 'Opening the lid partially at an angle (close to a Bunsen flame) acts as a shield against airborne bacteria and fungal spores settling on the agar.'
+      },
+      {
+        id: 84,
+        tier: 'separate',
+        topic: 'Required Practical: Microbiology',
+        isRequiredPractical: true,
+        question: 'Why is a Petri dish lid secured with two small pieces of adhesive tape rather than sealed completely all the way around?',
+        options: [
+          'To stop the lid falling off while still allowing oxygen in so harmful anaerobic bacteria do not grow',
+          'To allow carbon dioxide to escape during bacterial photosynthesis',
+          'To let airborne fungi enter and compete with the bacteria',
+          'To prevent condensation forming on the bottom of the dish'
+        ],
+        answer: 0,
+        explanation: 'Taping the lid prevents accidental opening, while leaving gaps ensures aerobic conditions—sealing completely creates anaerobic conditions that encourage dangerous human pathogens.'
+      },
+      {
+        id: 85,
+        tier: 'separate',
+        topic: 'Required Practical: Microbiology',
+        isRequiredPractical: true,
+        question: 'Why are inoculated agar plates stored upside down (inverted) during incubation?',
+        options: [
+          'To prevent condensation droplets on the lid from falling onto the agar surface and disrupting bacterial colonies',
+          'To force the agar jelly to fall onto the lid',
+          'To keep the bacteria away from oxygen',
+          'To increase the temperature inside the incubator'
+        ],
+        answer: 0,
+        explanation: 'Inverting the Petri dish ensures any condensation forms on the lid underneath rather than dripping onto the agar and smearing or contaminating the colonies.'
+      },
+      {
+        id: 86,
+        tier: 'separate',
+        topic: 'Required Practical: Microbiology',
+        isRequiredPractical: true,
+        question: 'What is the maximum temperature at which bacterial cultures should be incubated in a school laboratory, and why?',
+        options: [
+          '25 °C, to reduce the risk of growing harmful pathogens that thrive at human body temperature (37 °C)',
+          '37 °C, because bacteria cannot divide at any lower temperature',
+          '10 °C, to freeze the nutrient agar solid',
+          '60 °C, to sterilise the bacteria while they grow'
+        ],
+        answer: 0,
+        explanation: 'School incubators are set to a maximum of 25 °C because human pathogens grow best at 37 °C; industrial labs with containment facilities can safely use higher temperatures for faster growth.'
+      },
+      {
+        id: 87,
+        tier: 'separate',
+        topic: 'Required Practical: Microbiology',
+        isRequiredPractical: true,
+        question: 'In Required Practical 2, why is one filter paper disc soaked in sterile water and placed onto the bacterial lawn alongside the antibiotic discs?',
+        options: [
+          'As a control, to show that the clear zone is caused by the antibiotic/antiseptic rather than the filter paper disc or water itself',
+          'To provide extra moisture so bacteria grow faster across the whole dish',
+          'To neutralise the antibiotics on the neighbouring discs',
+          'To stain the bacterial colonies blue'
+        ],
+        answer: 0,
+        explanation: 'The sterile water disc acts as a negative control confirming that bacterial inhibition is due to the active antimicrobial chemical.'
+      },
+      {
+        id: 88,
+        tier: 'separate',
+        topic: 'Required Practical: Microbiology',
+        isRequiredPractical: true,
+        question: 'An antibiotic disc produces a circular clear zone of inhibition with a diameter of 18 mm. Using π = 3.14, calculate the cross-sectional area of the clear zone.',
+        options: ['254.34 mm²', '1,017.36 mm²', '56.52 mm²', '81.00 mm²'],
+        answer: 0,
+        explanation: 'Radius r = diameter ÷ 2 = 18 ÷ 2 = 9 mm. Area = πr² = 3.14 × 9² = 3.14 × 81 = 254.34 mm².'
+      },
+      {
+        id: 89,
+        tier: 'separate',
+        topic: 'Required Practical: Microbiology',
+        isRequiredPractical: true,
+        question: 'A bacterial colony on an agar plate has a radius of 3.0 mm. Using π = 3.14, calculate its cross-sectional area.',
+        options: ['28.26 mm²', '9.42 mm²', '18.84 mm²', '113.04 mm²'],
+        answer: 0,
+        explanation: 'Area = πr² = 3.14 × 3.0² = 3.14 × 9 = 28.26 mm².'
+      },
+      {
+        id: 90,
+        tier: 'separate',
+        topic: 'Required Practical: Microbiology',
+        isRequiredPractical: true,
+        question: 'Why should you measure the diameter of a zone of inhibition twice at 90° (perpendicular) to each other and calculate a mean?',
+        options: [
+          'Because clear zones are often not perfectly circular, so taking two perpendicular measurements gives a more accurate mean diameter',
+          'Because multiplying the two diameters together gives the area directly',
+          'To convert millimetres into micrometres',
+          'Because one measurement must be taken before incubation and one after'
+        ],
+        answer: 0,
+        explanation: 'Zones of inhibition can be slightly irregular; measuring across two perpendicular axes and taking the mean improves accuracy before calculating πr².'
+      },
+
+      // -------------------- SEPARATE BIOLOGY (8461): BINARY FISSION & CULTURING --------------------
+      {
+        id: 91,
+        tier: 'separate',
+        topic: 'Culturing Microorganisms',
+        isRequiredPractical: false,
+        question: 'By what process do bacteria multiply when provided with sufficient nutrients and a suitable temperature?',
+        options: [
+          'Binary fission (simple cell division), which can occur as fast as once every 20 minutes',
+          'Mitosis followed by meiosis inside a membrane-bound nucleus',
+          'Sexual fusion of two bacterial gametes',
+          'Budding from chloroplasts'
+        ],
+        answer: 0,
+        explanation: 'Bacteria multiply by simple cell division (binary fission) as often as once every 20 minutes under ideal conditions.'
+      },
+      {
+        id: 92,
+        tier: 'separate',
+        topic: 'Culturing Microorganisms',
+        isRequiredPractical: false,
+        question: 'A single bacterium has a mean division time of 20 minutes. How many bacteria will be produced after 3 hours under ideal conditions?',
+        options: ['512 bacteria', '9 bacteria', '256 bacteria', '1,024 bacteria'],
+        answer: 0,
+        explanation: '3 hours = 180 minutes. Number of divisions = 180 ÷ 20 = 9. Population = 1 × 2⁹ = 512 bacteria.'
+      },
+      {
+        id: 93,
+        tier: 'separate',
+        topic: 'Culturing Microorganisms',
+        isRequiredPractical: false,
+        question: 'A culture starts with 40 bacteria with a mean division time of 30 minutes. How many bacteria will there be after 2.5 hours?',
+        options: ['1,280 bacteria', '200 bacteria', '640 bacteria', '2,560 bacteria'],
+        answer: 0,
+        explanation: '2.5 hours = 150 minutes ÷ 30 minutes = 5 divisions. Population = 40 × 2⁵ = 40 × 32 = 1,280 bacteria.'
+      },
+      {
+        id: 94,
+        tier: 'separate',
+        topic: 'Culturing Microorganisms',
+        isRequiredPractical: false,
+        question: 'A bacterial culture starts with 2.0 × 10³ cells and undergoes 6 divisions. Express the final population in standard form.',
+        options: ['1.28 × 10⁵', '1.28 × 10⁴', '1.2 × 10⁴', '6.4 × 10⁴'],
+        answer: 0,
+        explanation: '2⁶ = 64. Final population = 2,000 × 64 = 128,000 = 1.28 × 10⁵ bacteria.'
+      },
+      {
+        id: 95,
+        tier: 'separate',
+        topic: 'Culturing Microorganisms',
+        isRequiredPractical: false,
+        question: 'What nutrients must be present in a nutrient broth solution or agar gel plate to culture uncontaminated microorganisms?',
+        options: [
+          'Carbohydrates as an energy source, plus minerals, proteins, and vitamins',
+          'Only pure distilled water and dissolved oxygen',
+          'Concentrated hydrochloric acid and cellulose',
+          'Liquid paraffin and sodium chloride only'
+        ],
+        answer: 0,
+        explanation: 'Culture media must contain carbohydrates for energy, alongside minerals, proteins, and vitamins needed for bacterial growth and division.'
+      },
+      {
+        id: 96,
+        tier: 'separate',
+        topic: 'Culturing Microorganisms',
+        isRequiredPractical: false,
+        question: 'How are Petri dishes and nutrient agar sterilised before use in microbiology?',
+        options: [
+          'Heated to high temperature under pressure (e.g., in an autoclave) to kill all unwanted microorganisms',
+          'Rinsed with cold tap water and dried with a paper towel',
+          'Placed in a freezer at −18 °C for 10 minutes',
+          'Exposed to bright sunlight on a windowsill'
+        ],
+        answer: 0,
+        explanation: 'Petri dishes and culture media must be sterilised (using an autoclave/steam under pressure) before use to destroy any pre-existing microbes.'
+      },
+
+      // -------------------- SEPARATE BIOLOGY (8461): MONOCLONAL ANTIBODIES --------------------
+      {
+        id: 97,
+        tier: 'separate',
+        topic: 'Monoclonal Antibodies',
+        isRequiredPractical: false,
+        question: 'What are monoclonal antibodies?',
+        options: [
+          'Identical antibodies produced from a single clone of cells that are specific to one binding site on one specific protein antigen',
+          'A mixture of different antibodies produced by many different white blood cells against several diseases',
+          'Antibiotics extracted from Penicillium mould to kill bacteria',
+          'Red blood cells modified to carry toxic drugs'
+        ],
+        answer: 0,
+        explanation: 'Monoclonal antibodies are produced from a single clone of hybridoma cells and bind specifically to one binding site on one specific protein antigen.'
+      },
+      {
+        id: 98,
+        tier: 'separate',
+        topic: 'Monoclonal Antibodies',
+        isRequiredPractical: false,
+        question: 'How is a hybridoma cell produced when making monoclonal antibodies?',
+        options: [
+          'By fusing a specific antibody-producing mouse lymphocyte with a fast-dividing tumour cell',
+          'By fusing two bacterial plasmids together inside an agar plate',
+          'By combining a human red blood cell with a plant meristem cell',
+          'By injecting a human patient with mouse tumour cells'
+        ],
+        answer: 0,
+        explanation: 'A mouse is injected with an antigen to stimulate lymphocytes to make a specific antibody; a lymphocyte is then fused with a tumour cell to create a hybridoma cell.'
+      },
+      {
+        id: 99,
+        tier: 'separate',
+        topic: 'Monoclonal Antibodies',
+        isRequiredPractical: false,
+        question: 'Why is a mouse lymphocyte fused with a tumour cell during monoclonal antibody production?',
+        options: [
+          'Lymphocytes do not divide easily on their own, whereas tumour cells divide rapidly and continuously; the hybridoma both divides rapidly and makes the desired antibody',
+          'Tumour cells produce the specific antigen needed to trigger immunity',
+          'Lymphocytes lack DNA and need a tumour cell nucleus',
+          'Tumour cells stop the antibodies from binding to target cells'
+        ],
+        answer: 0,
+        explanation: 'Combining the antibody-producing capability of a lymphocyte with the rapid division of a tumour cell yields a hybridoma that can be cloned to produce large amounts of identical antibodies.'
+      },
+      {
+        id: 100,
+        tier: 'separate',
+        topic: 'Monoclonal Antibodies',
+        isRequiredPractical: false,
+        question: 'Once a single hybridoma cell is isolated, what happens next to produce monoclonal antibodies?',
+        options: [
+          'The single hybridoma cell is cloned to produce many identical cells that all secrete the same antibody, which is then collected and purified',
+          'The hybridoma cell is injected directly into the patient’s bloodstream',
+          'The hybridoma cell undergoes meiosis to make four different antibodies',
+          'The hybridoma cell is heated to 100 °C to release enzymes'
+        ],
+        answer: 0,
+        explanation: 'A single hybridoma cell is cloned into many identical daughter cells, all producing the exact same monoclonal antibody, which is then harvested and purified.'
+      },
+      {
+        id: 101,
+        tier: 'separate',
+        topic: 'Monoclonal Antibodies',
+        isRequiredPractical: false,
+        question: 'How do monoclonal antibodies work in a home pregnancy test kit?',
+        options: [
+          'They bind specifically to the hormone hCG present in the urine of pregnant women, triggering a visible colour change',
+          'They kill bacteria in the urine sample to produce a blue line',
+          'They measure blood glucose concentration in urine',
+          'They clot red blood cells on the test strip'
+        ],
+        answer: 0,
+        explanation: 'Pregnancy tests contain monoclonal antibodies specific to the hormone hCG (human chorionic gonadotropin), which is only present in urine during pregnancy.'
+      },
+      {
+        id: 102,
+        tier: 'separate',
+        topic: 'Monoclonal Antibodies',
+        isRequiredPractical: false,
+        question: 'How can monoclonal antibodies be used to treat cancer without damaging healthy body cells?',
+        options: [
+          'They are bound to a radioactive substance, a toxic drug, or a chemical that stops cells growing and dividing, delivering it specifically to cancer cells',
+          'They stimulate healthy cells to divide faster so they push the tumour out',
+          'They digest the cellulose cell wall surrounding human tumours',
+          'They lower body temperature to 25 °C so tumours stop dividing'
+        ],
+        answer: 0,
+        explanation: 'Monoclonal antibodies target specific antigens on cancer cell membranes, delivering attached toxic drugs, radioactive substances, or growth-blocking chemicals directly to the tumour.'
+      },
+      {
+        id: 103,
+        tier: 'separate',
+        topic: 'Monoclonal Antibodies',
+        isRequiredPractical: false,
+        question: 'How are monoclonal antibodies used in scientific research to locate specific molecules inside cells or tissues?',
+        options: [
+          'By binding the monoclonal antibodies to a fluorescent dye so target molecules glow under a microscope',
+          'By attaching iron filings to pull cells apart with a magnet',
+          'By dissolving cell membranes to weigh the nucleus',
+          'By converting proteins into starch'
+        ],
+        answer: 0,
+        explanation: 'Monoclonal antibodies linked to fluorescent dyes bind specifically to target molecules in tissues, allowing researchers to locate and identify them under fluorescence microscopy.'
+      },
+      {
+        id: 104,
+        tier: 'separate',
+        topic: 'Monoclonal Antibodies',
+        isRequiredPractical: false,
+        question: 'Why are monoclonal antibodies NOT yet as widely used in medical treatments as scientists originally hoped?',
+        options: [
+          'They cause more side effects than expected (such as fever, vomiting, and low blood pressure)',
+          'They cannot bind to specific protein antigens',
+          'They can only be produced using human embryonic stem cells',
+          'They immediately break down when exposed to oxygen'
+        ],
+        answer: 0,
+        explanation: 'Because they are produced using mouse cells, monoclonal antibodies have caused more side effects than anticipated (e.g., immune reactions, fever, vomiting, low blood pressure).'
+      },
+      {
+        id: 105,
+        tier: 'separate',
+        topic: 'Monoclonal Antibodies',
+        isRequiredPractical: false,
+        question: 'Which statement describes an ethical concern raised by some people about the production of monoclonal antibodies?',
+        options: [
+          'The process involves injecting mice with antigens and inducing tumour growth to obtain lymphocytes and hybridoma cells',
+          'The process destroys 14-day-old human embryos',
+          'The process causes antibiotic resistance in hospital bacteria',
+          'The process releases toxic gases into the atmosphere'
+        ],
+        answer: 0,
+        explanation: 'Monoclonal antibody production relies on immunising mice and harvesting spleen lymphocytes and myeloma tumour cells, raising animal welfare objections.'
+      },
+      {
+        id: 106,
+        tier: 'separate',
+        topic: 'Monoclonal Antibodies',
+        isRequiredPractical: false,
+        question: 'Besides pregnancy testing and cancer therapy, how else are monoclonal antibodies used in hospital laboratories?',
+        options: [
+          'To measure levels of hormones and other chemicals in blood, or to detect specific pathogens',
+          'To sterilise surgical scalpels before operations',
+          'To replace damaged heart muscle after a heart attack',
+          'To provide energy for aerobic respiration in patients'
+        ],
+        answer: 0,
+        explanation: 'Diagnostic laboratory assays use monoclonal antibodies to measure blood hormone/chemical concentrations and rapidly identify infectious pathogens.'
+      }
+    ];
+
+    // =========================================================================
+    // 2. STATE MANAGEMENT
+    // =========================================================================
+    let state = {
+      studentName: '',
+      studentEmail: '',
+      selectedTier: 'higher', // 'foundation' | 'higher' | 'separate'
+      selectedMode: 'all',    // 'all' | 'rp'
+      selectedCount: 20,
+      activeQuestions: [],
+      currentIndex: 0,
+      score: 0,
+      answeredCurrent: false,
+      userResponses: [],      // { questionObj, chosenIndex, isCorrect }
+      isMissedRetry: false
+    };
+
+    // =========================================================================
+    // 3. FILTERING & POOL HELPERS
+    // =========================================================================
+    function getFilteredPool(tier, mode) {
+      return QUESTION_BANK.filter(q => {
+        // Tier eligibility:
+        // - foundation: only 'foundation'
+        // - higher: 'foundation' + 'higher'
+        // - separate: 'foundation' + 'higher' + 'separate'
+        let tierMatch = false;
+        if (tier === 'foundation') {
+          tierMatch = q.tier === 'foundation';
+        } else if (tier === 'higher') {
+          tierMatch = q.tier === 'foundation' || q.tier === 'higher';
+        } else {
+          tierMatch = true; // separate includes all
+        }
+
+        if (!tierMatch) return false;
+        if (mode === 'rp') return q.isRequiredPractical === true;
+        return true;
+      });
+    }
+
+    function shuffleArray(array) {
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function prepareQuestionWithShuffledOptions(q) {
+      const indexed = q.options.map((text, idx) => ({
+        text,
+        isCorrect: idx === q.answer
+      }));
+      const shuffled = shuffleArray(indexed);
+      return {
+        ...q,
+        shuffledOptions: shuffled,
+        shuffledAnswerIndex: shuffled.findIndex(o => o.isCorrect)
+      };
+    }
+
+    // =========================================================================
+    // 4. START SCREEN UI INTERACTIONS
+    // =========================================================================
+    function selectTier(tier) {
+      state.selectedTier = tier;
+
+      // Update tier buttons styling
+      document.querySelectorAll('.tier-btn').forEach(btn => {
+        const isSelected = btn.dataset.tier === tier;
+        const check = btn.querySelector('.tier-check');
+        if (isSelected) {
+          btn.classList.remove('border-slate-200', 'bg-slate-50');
+          btn.classList.add('border-teal-600', 'bg-teal-50/60', 'shadow-sm');
+          check.classList.remove('border-slate-300');
+          check.classList.add('border-teal-600', 'bg-teal-600');
+        } else {
+          btn.classList.add('border-slate-200', 'bg-slate-50');
+          btn.classList.remove('border-teal-600', 'bg-teal-50/60', 'shadow-sm');
+          check.classList.add('border-slate-300');
+          check.classList.remove('border-teal-600', 'bg-teal-600');
+        }
+      });
+
+      // Update RP description based on whether Separate Biology (RP2) is included
+      const rpDesc = document.getElementById('modeRpDesc');
+      if (tier === 'separate') {
+        rpDesc.textContent = 'Focused practical drill: RP1 Microscopy, RP2 Microbiology (Aseptic Technique) & RP3 Osmosis.';
+      } else {
+        rpDesc.textContent = 'Focused practical drill: RP1 Microscopy & Magnification and RP3 Osmosis in Plant Tissue.';
+      }
+
+      updateSetupLabels();
+    }
+
+    function selectMode(mode) {
+      state.selectedMode = mode;
+
+      const allBtn = document.getElementById('modeAllBtn');
+      const allIcon = document.getElementById('modeAllIcon');
+      const allCheck = document.getElementById('modeAllCheck');
+
+      const rpBtn = document.getElementById('modeRpBtn');
+      const rpIcon = document.getElementById('modeRpIcon');
+      const rpCheck = document.getElementById('modeRpCheck');
+
+      if (mode === 'all') {
+        allBtn.classList.remove('border-slate-200', 'bg-slate-50');
+        allBtn.classList.add('border-teal-600', 'bg-teal-50/60', 'shadow-sm');
+        allIcon.classList.remove('bg-slate-200', 'text-slate-700');
+        allIcon.classList.add('bg-teal-600', 'text-white');
+        allCheck.classList.remove('hidden');
+
+        rpBtn.classList.remove('border-amber-500', 'bg-amber-50', 'shadow-sm');
+        rpBtn.classList.add('border-slate-200', 'bg-amber-50/40');
+        rpIcon.classList.remove('bg-amber-500', 'text-white');
+        rpIcon.classList.add('bg-amber-100', 'text-amber-800');
+        rpCheck.classList.add('hidden');
+      } else {
+        rpBtn.classList.remove('border-slate-200', 'bg-amber-50/40');
+        rpBtn.classList.add('border-amber-500', 'bg-amber-50', 'shadow-sm');
+        rpIcon.classList.remove('bg-amber-100', 'text-amber-800');
+        rpIcon.classList.add('bg-amber-500', 'text-white');
+        rpCheck.classList.remove('hidden');
+
+        allBtn.classList.remove('border-teal-600', 'bg-teal-50/60', 'shadow-sm');
+        allBtn.classList.add('border-slate-200', 'bg-slate-50');
+        allIcon.classList.remove('bg-teal-600', 'text-white');
+        allIcon.classList.add('bg-slate-200', 'text-slate-700');
+        allCheck.classList.add('hidden');
+      }
+
+      updateSetupLabels();
+    }
+
+    function selectCount(count) {
+      state.selectedCount = count;
+      document.querySelectorAll('.count-btn').forEach(btn => {
+        const btnCount = parseInt(btn.dataset.count, 10);
+        if (btnCount === count) {
+          btn.classList.remove('border-slate-200', 'bg-slate-50', 'text-slate-800', 'hover:border-teal-400');
+          btn.classList.add('border-teal-600', 'bg-teal-600', 'text-white', 'shadow-sm');
+        } else {
+          btn.classList.add('border-slate-200', 'bg-slate-50', 'text-slate-800', 'hover:border-teal-400');
+          btn.classList.remove('border-teal-600', 'bg-teal-600', 'text-white', 'shadow-sm');
+        }
+      });
+      updateSetupLabels();
+    }
+
+    function updateSetupLabels() {
+      const tierNames = {
+        foundation: 'Foundation Tier',
+        higher: 'Higher Tier',
+        separate: 'Separate Biology'
+      };
+      const tierBadges = {
+        foundation: 'Combined Science Foundation Selected',
+        higher: 'Combined Science Higher Selected',
+        separate: 'Separate Biology (8461) Selected'
+      };
+
+      document.getElementById('tierCountHint').textContent = tierBadges[state.selectedTier];
+
+      const pool = getFilteredPool(state.selectedTier, state.selectedMode);
+      const poolText = document.getElementById('poolAvailabilityText');
+      if (state.selectedMode === 'rp') {
+        poolText.textContent = `${pool.length} unique Required Practical questions available`;
+      } else {
+        poolText.textContent = `${pool.length} unique questions available for ${tierNames[state.selectedTier]}`;
+      }
+
+      const startLabel = document.getElementById('startBtnLabel');
+      const actualCount = Math.min(state.selectedCount, pool.length);
+      if (state.selectedMode === 'rp') {
+        startLabel.textContent = `Start Required Practicals Quiz (${actualCount} Questions)`;
+      } else {
+        startLabel.textContent = `Start ${tierNames[state.selectedTier]} Quiz (${actualCount} Questions)`;
+      }
+    }
+
+    function clearValidationError() {
+      const input = document.getElementById('studentNameInput');
+      const alertBox = document.getElementById('validationAlert');
+      input.classList.remove('border-rose-500', 'bg-rose-50/40');
+      alertBox.classList.add('hidden');
+    }
+
+    function handleStartQuiz(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById('studentNameInput');
+      const emailInput = document.getElementById('studentEmailInput');
+      const nameVal = nameInput.value.trim();
+
+      if (!nameVal) {
+        nameInput.classList.add('border-rose-500', 'bg-rose-50/40');
+        document.getElementById('validationAlert').classList.remove('hidden');
+        nameInput.focus();
+        return;
+      }
+
+      state.studentName = nameVal;
+      state.studentEmail = emailInput.value.trim();
+      state.isMissedRetry = false;
+
+      const pool = getFilteredPool(state.selectedTier, state.selectedMode);
+      const shuffledPool = shuffleArray(pool);
+      const chosenSlice = shuffledPool.slice(0, Math.min(state.selectedCount, shuffledPool.length));
+
+      launchQuizSession(chosenSlice);
+    }
+
+    // =========================================================================
+    // 5. QUIZ ENGINE
+    // =========================================================================
+    function launchQuizSession(rawQuestions) {
+      state.activeQuestions = rawQuestions.map(prepareQuestionWithShuffledOptions);
+      state.currentIndex = 0;
+      state.score = 0;
+      state.answeredCurrent = false;
+      state.userResponses = [];
+
+      // Update Header
+      document.getElementById('headerStudentName').textContent = state.studentName;
+      document.getElementById('headerControls').classList.remove('hidden');
+
+      // Switch views
+      document.getElementById('startScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.add('hidden');
+      document.getElementById('quizScreen').classList.remove('hidden');
+
+      renderCurrentQuestion();
+    }
+
+    function renderCurrentQuestion() {
+      const q = state.activeQuestions[state.currentIndex];
+      const total = state.activeQuestions.length;
+      const qNum = state.currentIndex + 1;
+      state.answeredCurrent = false;
+
+      // Badges
+      const tierLabels = {
+        foundation: 'Foundation Tier',
+        higher: 'Higher Tier',
+        separate: 'Separate Biology'
+      };
+      const tierBadge = document.getElementById('quizTierBadge');
+      tierBadge.textContent = state.isMissedRetry ? 'Missed Questions Drill' : tierLabels[state.selectedTier];
+
+      document.getElementById('quizTopicBadge').textContent = q.topic;
+
+      const rpBadge = document.getElementById('quizRpBadge');
+      if (q.isRequiredPractical) {
+        rpBadge.classList.remove('hidden');
+      } else {
+        rpBadge.classList.add('hidden');
+      }
+
+      // Progress
+      document.getElementById('questionCounterText').textContent = `Question ${qNum} of ${total}`;
+      document.getElementById('liveScoreText').textContent = state.score;
+      const pct = Math.round(((qNum - 1) / total) * 100);
+      document.getElementById('quizProgressBar').style.width = `${Math.max(4, pct)}%`;
+
+      // Question text
+      document.getElementById('questionPrompt').textContent = q.question;
+
+      // Hide feedback
+      document.getElementById('feedbackBox').classList.add('hidden');
+
+      // Render options
+      const container = document.getElementById('optionsContainer');
+      container.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      q.shuffledOptions.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'option-card w-full text-left p-4 rounded-xl border-2 border-slate-200 bg-slate-50 hover:bg-teal-50/50 hover:border-teal-500 flex items-start gap-3.5 focus:outline-none';
+        btn.innerHTML = `
+          <span class="option-letter w-7 h-7 rounded-lg bg-white border border-slate-300 text-slate-700 font-extrabold text-xs flex items-center justify-center shrink-0 mt-0.5">
+            ${letters[idx]}
+          </span>
+          <span class="text-sm sm:text-base font-medium text-slate-800 leading-snug">
+            ${opt.text}
+          </span>
+        `;
+        btn.onclick = () => handleAnswerSelection(idx);
+        container.appendChild(btn);
+      });
+    }
+
+    function handleAnswerSelection(chosenIdx) {
+      if (state.answeredCurrent) return;
+      state.answeredCurrent = true;
+
+      const q = state.activeQuestions[state.currentIndex];
+      const isCorrect = chosenIdx === q.shuffledAnswerIndex;
+
+      if (isCorrect) {
+        state.score++;
+        document.getElementById('liveScoreText').textContent = state.score;
+      }
+
+      state.userResponses.push({
+        questionObj: q,
+        chosenIndex: chosenIdx,
+        isCorrect: isCorrect
+      });
+
+      // Style all option buttons
+      const optionBtns = document.querySelectorAll('#optionsContainer .option-card');
+      optionBtns.forEach((btn, idx) => {
+        btn.disabled = true;
+        const letterBadge = btn.querySelector('.option-letter');
+        btn.classList.remove('hover:bg-teal-50/50', 'hover:border-teal-500', 'bg-slate-50', 'border-slate-200');
+
+        if (idx === q.shuffledAnswerIndex) {
+          btn.classList.add('bg-emerald-50', 'border-emerald-500');
+          letterBadge.classList.remove('bg-white', 'border-slate-300', 'text-slate-700');
+          letterBadge.classList.add('bg-emerald-600', 'border-emerald-600', 'text-white');
+        } else if (idx === chosenIdx && !isCorrect) {
+          btn.classList.add('bg-rose-50', 'border-rose-500');
+          letterBadge.classList.remove('bg-white', 'border-slate-300', 'text-slate-700');
+          letterBadge.classList.add('bg-rose-600', 'border-rose-600', 'text-white');
+        } else {
+          btn.classList.add('bg-slate-50', 'border-slate-200', 'opacity-60');
+        }
+      });
+
+      // Show AQA Mark-Scheme Feedback
+      const feedbackBox = document.getElementById('feedbackBox');
+      const feedbackIcon = document.getElementById('feedbackIcon');
+      const feedbackHeading = document.getElementById('feedbackHeading');
+      const feedbackExplanation = document.getElementById('feedbackExplanation');
+
+      feedbackBox.classList.remove('hidden', 'bg-emerald-50/70', 'border-emerald-300', 'bg-rose-50/70', 'border-rose-300');
+      feedbackIcon.classList.remove('bg-emerald-600', 'bg-rose-600', 'text-white');
+
+      if (isCorrect) {
+        feedbackBox.classList.add('bg-emerald-50/70', 'border-emerald-300');
+        feedbackIcon.classList.add('bg-emerald-600', 'text-white');
+        feedbackIcon.textContent = '✓';
+        feedbackHeading.textContent = 'Correct! Mark Awarded';
+        feedbackHeading.className = 'font-extrabold text-base text-emerald-900';
+        feedbackExplanation.className = 'text-sm mt-1.5 leading-relaxed text-emerald-900/90';
+      } else {
+        feedbackBox.classList.add('bg-rose-50/70', 'border-rose-300');
+        feedbackIcon.classList.add('bg-rose-600', 'text-white');
+        feedbackIcon.textContent = '✕';
+        feedbackHeading.textContent = 'Incorrect — Review AQA Mark-Scheme Note';
+        feedbackHeading.className = 'font-extrabold text-base text-rose-900';
+        feedbackExplanation.className = 'text-sm mt-1.5 leading-relaxed text-rose-900/90';
+      }
+
+      feedbackExplanation.textContent = q.explanation;
+
+      const isLast = state.currentIndex === state.activeQuestions.length - 1;
+      document.getElementById('nextBtnText').textContent = isLast ? 'View Diagnostic Report' : 'Next Question';
+
+      // Update progress bar to reflect completed question
+      const total = state.activeQuestions.length;
+      const pct = Math.round(((state.currentIndex + 1) / total) * 100);
+      document.getElementById('quizProgressBar').style.width = `${pct}%`;
+    }
+
+    function handleNextQuestion() {
+      if (state.currentIndex < state.activeQuestions.length - 1) {
+        state.currentIndex++;
+        renderCurrentQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showDiagnosticReport();
+      }
+    }
+
+    // =========================================================================
+    // 6. DIAGNOSTIC REPORT & EXPORT
+    // =========================================================================
+    function showDiagnosticReport() {
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      const total = state.activeQuestions.length;
+      const pct = Math.round((state.score / total) * 100);
+
+      const tierNames = {
+        foundation: 'Foundation Tier',
+        higher: 'Higher Tier',
+        separate: 'Separate Biology'
+      };
+      const modeName = state.isMissedRetry
+        ? 'Targeted Missed Questions Retry'
+        : (state.selectedMode === 'rp' ? 'Required Practicals Only' : 'All Cell Biology Topics');
+
+      document.getElementById('reportStudentTitle').textContent = `Diagnostic Report: ${state.studentName}`;
+      document.getElementById('reportMetaSubtitle').textContent = `${tierNames[state.selectedTier]} • ${modeName}`;
+      document.getElementById('reportPercentage').textContent = `${pct}%`;
+      document.getElementById('reportFraction').textContent = `${state.score} / ${total} Correct`;
+
+      // Missed questions button
+      const missedItems = state.userResponses.filter(r => !r.isCorrect);
+      const retryBtn = document.getElementById('retryMissedBtn');
+      if (missedItems.length > 0) {
+        retryBtn.classList.remove('hidden');
+        document.getElementById('missedCountLabel').textContent = missedItems.length;
+      } else {
+        retryBtn.classList.add('hidden');
+      }
+
+      // Topic-by-Topic Breakdown
+      const topicMap = {};
+      state.userResponses.forEach(res => {
+        const t = res.questionObj.topic;
+        if (!topicMap[t]) {
+          topicMap[t] = { correct: 0, total: 0 };
+        }
+        topicMap[t].total++;
+        if (res.isCorrect) topicMap[t].correct++;
+      });
+
+      const breakdownContainer = document.getElementById('topicBreakdownContainer');
+      breakdownContainer.innerHTML = '';
+
+      Object.entries(topicMap).forEach(([topicName, stats]) => {
+        const topicPct = Math.round((stats.correct / stats.total) * 100);
+        let barColor = 'bg-emerald-500';
+        let badgeStyle = 'bg-emerald-100 text-emerald-800';
+        let statusLabel = 'Strong';
+
+        if (topicPct < 50) {
+          barColor = 'bg-rose-500';
+          badgeStyle = 'bg-rose-100 text-rose-800';
+          statusLabel = 'Revise Priority';
+        } else if (topicPct < 80) {
+          barColor = 'bg-amber-500';
+          badgeStyle = 'bg-amber-100 text-amber-800';
+          statusLabel = 'Developing';
+        }
+
+        const row = document.createElement('div');
+        row.className = 'p-4 rounded-xl bg-slate-50 border border-slate-200';
+        row.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <span class="font-bold text-sm text-slate-900">${topicName}</span>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${badgeStyle}">${statusLabel}</span>
+              <span class="text-xs font-extrabold text-slate-700">${stats.correct}/${stats.total} (${topicPct}%)</span>
+            </div>
+          </div>
+          <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+            <div class="h-full ${barColor} rounded-full transition-all duration-500" style="width: ${topicPct}%;"></div>
+          </div>
+        `;
+        breakdownContainer.appendChild(row);
+      });
+
+      // Question-by-Question Review
+      const reviewList = document.getElementById('questionReviewList');
+      reviewList.innerHTML = '';
+
+      state.userResponses.forEach((res, idx) => {
+        const q = res.questionObj;
+        const chosenText = q.shuffledOptions[res.chosenIndex].text;
+        const correctText = q.shuffledOptions[q.shuffledAnswerIndex].text;
+
+        const card = document.createElement('div');
+        card.className = `p-4 sm:p-5 rounded-xl border-2 ${res.isCorrect ? 'border-emerald-200 bg-emerald-50/30' : 'border-rose-200 bg-rose-50/30'}`;
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="text-xs font-extrabold uppercase tracking-wider ${res.isCorrect ? 'text-emerald-700' : 'text-rose-700'}">
+              Question ${idx + 1} &bull; ${res.isCorrect ? 'Correct' : 'Incorrect'}
+            </span>
+            <span class="text-xs font-semibold text-slate-500">${q.topic}</span>
+          </div>
+          <p class="font-bold text-sm sm:text-base text-slate-900 mb-3">${q.question}</p>
+          <div class="space-y-1.5 text-xs sm:text-sm">
+            <p class="${res.isCorrect ? 'text-emerald-800 font-semibold' : 'text-rose-800 font-semibold'}">
+              Your answer: ${chosenText}
+            </p>
+            ${!res.isCorrect ? `<p class="text-emerald-800 font-bold">Correct answer: ${correctText}</p>` : ''}
+            <p class="text-slate-600 pt-1.5 border-t border-slate-200/80 mt-2">
+              <strong class="text-slate-800">Mark Scheme Note:</strong> ${q.explanation}
+            </p>
+          </div>
+        `;
+        reviewList.appendChild(card);
+      });
+
+      // Prepare Mailto Link
+      const summaryText = buildPlainTextReport();
+      const subject = encodeURIComponent(`AQA GCSE Cell Biology Quiz Results — ${state.studentName} (${pct}%)`);
+      const body = encodeURIComponent(summaryText);
+      const recipient = state.studentEmail ? encodeURIComponent(state.studentEmail) : '';
+      document.getElementById('emailResultsLink').href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    }
+
+    function buildPlainTextReport() {
+      const total = state.activeQuestions.length;
+      const pct = Math.round((state.score / total) * 100);
+      const tierNames = {
+        foundation: 'Foundation Tier',
+        higher: 'Higher Tier',
+        separate: 'Separate Biology'
+      };
+      const modeName = state.selectedMode === 'rp' ? 'Required Practicals Only' : 'All Cell Biology Topics';
+
+      const topicMap = {};
+      state.userResponses.forEach(res => {
+        const t = res.questionObj.topic;
+        if (!topicMap[t]) topicMap[t] = { correct: 0, total: 0 };
+        topicMap[t].total++;
+        if (res.isCorrect) topicMap[t].correct++;
+      });
+
+      const breakdownLines = Object.entries(topicMap)
+        .map(([t, s]) => `- ${t}: ${s.correct}/${s.total} (${Math.round((s.correct / s.total) * 100)}%)`)
+        .join('\n');
+
+      return [
+        `Mr Leek Science — AQA GCSE Cell Biology Revision Quiz`,
+        `Student: ${state.studentName}`,
+        `Pathway: ${tierNames[state.selectedTier]} | Focus: ${modeName}`,
+        `Overall Score: ${state.score} / ${total} (${pct}%)`,
+        ``,
+        `Topic Breakdown:`,
+        breakdownLines
+      ].join('\n');
+    }
+
+    function copyResultsSummary() {
+      const text = buildPlainTextReport();
+      const tempArea = document.createElement('textarea');
+      tempArea.value = text;
+      tempArea.style.position = 'fixed';
+      tempArea.style.left = '-9999px';
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      try {
+        document.execCommand('copy');
+        const label = document.getElementById('copyBtnLabel');
+        label.textContent = 'Copied to Clipboard ✓';
+        setTimeout(() => {
+          label.textContent = 'Copy Results Summary';
+        }, 2500);
+      } catch (err) {
+        // Fallback if blocked
+      }
+      document.body.removeChild(tempArea);
+    }
+
+    function startMissedQuestionsQuiz() {
+      const missedRaw = state.userResponses
+        .filter(r => !r.isCorrect)
+        .map(r => r.questionObj);
+
+      if (missedRaw.length === 0) return;
+      state.isMissedRetry = true;
+      launchQuizSession(shuffleArray(missedRaw));
+    }
+
+    // =========================================================================
+    // 7. NAVIGATION & MODAL HELPERS
+    // =========================================================================
+    function confirmReturnHome() {
+      const quizVisible = !document.getElementById('quizScreen').classList.contains('hidden');
+      if (quizVisible && state.userResponses.length > 0) {
+        document.getElementById('confirmModal').classList.remove('hidden');
+      } else {
+        returnToMenu();
+      }
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirmModal').classList.add('hidden');
+    }
+
+    function returnToMenu() {
+      closeConfirmModal();
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.add('hidden');
+      document.getElementById('headerControls').classList.add('hidden');
+      document.getElementById('startScreen').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Initialize default labels on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      selectTier('higher');
+      selectMode('all');
+      selectCount(20);
+    });
+  </script>
+</body>
+</html>
